@@ -20,7 +20,7 @@ include 'header.php';
                                 </div>
                                 <div class="progress-detail">
                                     <p  class="mb-2">Pengguna</p>
-                                    <h4 class="counter">100</h4>
+                                    <h4 class="counter"><?=$this->data[0]?></h4>
                                 </div>
                             </div>
                         </div>
@@ -35,7 +35,7 @@ include 'header.php';
                                 </div>
                                 <div class="progress-detail">
                                     <p  class="mb-2">Dakwah</p>
-                                    <h4 class="counter">150</h4>
+                                    <h4 class="counter"><?=$this->data[1]?></h4>
                                 </div>
                             </div>
                         </div>

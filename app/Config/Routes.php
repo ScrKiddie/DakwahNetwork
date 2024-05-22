@@ -7,4 +7,6 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Admin::dashboard');
 $routes->get('/admin/dashboard', 'Admin::dashboard');
-$routes->get('/admin/pengguna', 'Admin::pengguna');
+$routes->get('/admin/penyelenggara', 'Admin::penyelenggara');
+$routes->get('/admin/penyelenggara/new', 'Admin::newPenyelenggara');
+$routes->post('/admin/penyelenggara/add', 'Admin::addPenyelenggara');

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>DakNet | Dakwah Network</title>
-    <link rel="shortcut icon" href="<?=base_url()?>img/logo.svg" />
+    <link rel="shortcut icon" href="<?=base_url()?>img/logo.png" />
     <link rel="stylesheet" href="<?=base_url()?>assets/css/core/libs.min.css" />
     <link rel="stylesheet" href="<?=base_url()?>assets/vendor/aos/dist/aos.css" />
     <link rel="stylesheet" href="<?=base_url()?>assets/css/hope-ui.min.css?v=2.0.0" />
@@ -12,12 +12,19 @@
     <link rel="stylesheet" href="<?=base_url()?>assets/css/dark.min.css"/>
     <link rel="stylesheet" href="<?=base_url()?>assets/css/customizer.min.css" />
     <link rel="stylesheet" href="<?=base_url()?>assets/css/rtl.min.css"/>
+    <link rel="stylesheet" href="<?=base_url()?>cropperjs/cropper.css"/>
     <style>
-        .dropdown-menu.show {
-            display: block !important;
-            opacity: 1 !important;
+        canvas{
+            max-width: 100% !important;
+        }
+        .show {
             transform: translateY(0) !important;
         }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -48,11 +55,10 @@
             <!--Logo start-->
             <div class="logo-main" style="padding-left: 7px;">
                 <div class="logo-normal">
-                    <svg  width="30px" height="30px" fill="#3a57e8" style="enable-background:new 0 0 64 64;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Layer_1"/><g id="Light"/><g id="Window"/><g id="Rub_el_hizb"/><g id="Muslimah"/><g id="Muslim"/><g id="Wudhu"/><g id="Praying_00000094592418709929368740000016989174723214131090_"/><g id="Praying"/><g id="Pray"/><g id="Ketupat"/><g id="Gift"/><g id="Oil_Lamp"/><g id="Tauhid"/><g id="Zakat"/><g id="Eat"/><g id="Oud"/><g id="Teapot"/><g id="Iftar"/><g id="Dawn"/><g id="Infaq"/><g id="Sajadah"/><g id="Kaaba"/><g id="Mosque_00000003803682752247596670000011302116631847618953_"/><g id="Fasting"/><g id="Quran_00000024699989614576326310000007593149211605186702_"/><g id="Calendar"/><g id="Bedug"/><g id="Lantern"/><g id="Quran"/><g id="Mosque"><g><path d="M60.386,40.193c-0.768-0.509-1.785-0.428-2.462,0.197c-1.216,1.123-2.534,2.103-3.924,2.953V33c1.104,0,2-0.896,2-2v-7    c0-1.104-0.896-2-2-2h-1.496C53.474,20.485,54,18.727,54,16.886c0-3.758-2.219-7.172-5.652-8.698    c-2.785-1.238-5.289-2.958-7.443-5.111l-1.491-1.491c-0.78-0.781-2.048-0.781-2.828,0l-1.491,1.491    c-2.154,2.154-4.658,3.874-7.442,5.111C24.219,9.714,22,13.128,22,16.886c0,1.842,0.526,3.6,1.496,5.114H22c-1.104,0-2,0.896-2,2    v7c0,1.104,0.896,2,2,2v5.221c-3.736-4.37-6-10.034-6-16.221c0-5.416,1.7-10.563,4.915-14.886c0.55-0.74,0.523-1.76-0.065-2.47    c-0.588-0.709-1.585-0.926-2.415-0.522C7.681,9.354,1,20.037,1,32c0,17.093,13.907,31,31,31c13.027,0,24.746-8.223,29.162-20.461    C61.475,41.671,61.154,40.703,60.386,40.193z M52,26v3H24v-3H52z M35.666,20.838C34.592,19.763,34,18.334,34,16.815    c0-0.878,0.208-1.758,0.6-2.544L38,7.472l3.399,6.798C41.792,15.057,42,15.937,42,16.815c0,1.52-0.592,2.948-1.666,4.023    L39.171,22h-2.343L35.666,20.838z M50,16.886c0,1.474-0.574,2.86-1.616,3.902L47.171,22H44.49c0.979-1.537,1.51-3.319,1.51-5.185    c0-1.496-0.354-2.994-1.022-4.333l-1.042-2.084c0.902,0.525,1.826,1.018,2.788,1.446C48.714,12.728,50,14.707,50,16.886z     M27.616,20.788C26.574,19.746,26,18.36,26,16.886c0-2.179,1.286-4.158,3.277-5.042c0.962-0.428,1.885-0.921,2.788-1.446    l-1.043,2.085C30.354,13.821,30,15.319,30,16.815c0,1.866,0.531,3.648,1.51,5.185h-2.681L27.616,20.788z M50,33v12.324    c-1.294,0.5-2.634,0.882-4,1.16v-3.44c0-2.711-1.837-5.064-4.468-5.722c-0.333-0.083-0.639-0.256-0.882-0.499l-1.236-1.236    c-0.78-0.781-2.048-0.781-2.828,0l-1.236,1.236c-0.243,0.243-0.548,0.416-0.882,0.499C31.837,37.979,30,40.333,30,43.043v1.4    c-1.413-0.695-2.752-1.518-4-2.457V33H50z M42,46.953C41.666,46.967,41.336,47,41,47c-2.43,0-4.777-0.355-7-1.005v-2.952    c0-0.873,0.591-1.63,1.438-1.841c0.958-0.239,1.838-0.715,2.562-1.381c0.724,0.666,1.605,1.142,2.562,1.381    C41.409,41.414,42,42.171,42,43.043V46.953z M32,59C17.112,59,5,46.888,5,32c0-7.755,3.222-14.891,8.731-19.913    C12.589,15.229,12,18.568,12,22c0,15.991,13.009,29,29,29c4.451,0,8.779-1.011,12.694-2.921C48.685,54.814,40.675,59,32,59z"/><path d="M61,4h-1V3c0-1.104-0.896-2-2-2s-2,0.896-2,2v1h-1c-1.104,0-2,0.896-2,2s0.896,2,2,2h1v1c0,1.104,0.896,2,2,2s2-0.896,2-2    V8h1c1.104,0,2-0.896,2-2S62.104,4,61,4z"/></g></g></svg>
-
+                     <img width="30px" src="<?=base_url()?>img/logo.png" alt="">
                 </div>
                 <div class="logo-mini">
-                    <img src="<?=base_url()?>img/logo.svg" alt="">
+                    <img src="<?=base_url()?>img/logo.png" alt="">
                 </div>
             </div>
             <!--logo End-->
@@ -113,7 +119,7 @@
                                 <path d="M3.32156 13.5127C2.21752 13.7297 1.49225 14.1719 1.19139 14.8167C0.936203 15.3453 0.936203 15.9586 1.19139 16.4872C1.65163 17.4851 3.13531 17.8066 3.71195 17.8885C3.83104 17.9065 3.92595 17.8038 3.91342 17.6832C3.61883 14.9167 5.9621 13.6046 6.56918 13.3029C6.59425 13.2885 6.59962 13.2677 6.59694 13.2542C6.59515 13.2452 6.5853 13.2317 6.5656 13.2299C5.25294 13.2047 3.84358 13.3848 3.32156 13.5127Z" fill="currentColor"></path>
                             </svg>
                         </i>
-                        <span class="item-name">Pengguna</span>
+                        <span class="item-name">Accounts</span>
                         <i class="right-icon">
                             <svg class="icon-18" xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -131,9 +137,10 @@
                                         </g>
                                     </svg>
                                 </i>
+                                <i class="sidenav-mini-icon"> P </i>
                                 <span class="item-name">Pendaftaran</span>
                             </a>
-                            <a id="buttonListPengguna" class="nav-link " href="<?=base_url()?>admin/pengguna">
+                            <a id="buttonListPengguna" class="nav-link " href="<?=base_url()?>admin/penyelenggara">
                                 <i class="icon">
                                     <svg  class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                         <g>
@@ -141,7 +148,8 @@
                                         </g>
                                     </svg>
                                 </i>
-                                <span class="item-name">List Pengguna</span>
+                                <i class="sidenav-mini-icon"> L </i>
+                                <span class="item-name">Penyelenggara</span>
                             </a>
                         </li>
                     </ul>
@@ -193,7 +201,7 @@
                 <a href="#" class="navbar-brand" style="padding-top:0px">
                     <div class="logo-main">
                         <div class="logo-normal" style="margin-top: 2px;">
-                            <svg  width="30px" height="30px" fill="#3a57e8" style="enable-background:new 0 0 64 64;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Layer_1"/><g id="Light"/><g id="Window"/><g id="Rub_el_hizb"/><g id="Muslimah"/><g id="Muslim"/><g id="Wudhu"/><g id="Praying_00000094592418709929368740000016989174723214131090_"/><g id="Praying"/><g id="Pray"/><g id="Ketupat"/><g id="Gift"/><g id="Oil_Lamp"/><g id="Tauhid"/><g id="Zakat"/><g id="Eat"/><g id="Oud"/><g id="Teapot"/><g id="Iftar"/><g id="Dawn"/><g id="Infaq"/><g id="Sajadah"/><g id="Kaaba"/><g id="Mosque_00000003803682752247596670000011302116631847618953_"/><g id="Fasting"/><g id="Quran_00000024699989614576326310000007593149211605186702_"/><g id="Calendar"/><g id="Bedug"/><g id="Lantern"/><g id="Quran"/><g id="Mosque"><g><path d="M60.386,40.193c-0.768-0.509-1.785-0.428-2.462,0.197c-1.216,1.123-2.534,2.103-3.924,2.953V33c1.104,0,2-0.896,2-2v-7    c0-1.104-0.896-2-2-2h-1.496C53.474,20.485,54,18.727,54,16.886c0-3.758-2.219-7.172-5.652-8.698    c-2.785-1.238-5.289-2.958-7.443-5.111l-1.491-1.491c-0.78-0.781-2.048-0.781-2.828,0l-1.491,1.491    c-2.154,2.154-4.658,3.874-7.442,5.111C24.219,9.714,22,13.128,22,16.886c0,1.842,0.526,3.6,1.496,5.114H22c-1.104,0-2,0.896-2,2    v7c0,1.104,0.896,2,2,2v5.221c-3.736-4.37-6-10.034-6-16.221c0-5.416,1.7-10.563,4.915-14.886c0.55-0.74,0.523-1.76-0.065-2.47    c-0.588-0.709-1.585-0.926-2.415-0.522C7.681,9.354,1,20.037,1,32c0,17.093,13.907,31,31,31c13.027,0,24.746-8.223,29.162-20.461    C61.475,41.671,61.154,40.703,60.386,40.193z M52,26v3H24v-3H52z M35.666,20.838C34.592,19.763,34,18.334,34,16.815    c0-0.878,0.208-1.758,0.6-2.544L38,7.472l3.399,6.798C41.792,15.057,42,15.937,42,16.815c0,1.52-0.592,2.948-1.666,4.023    L39.171,22h-2.343L35.666,20.838z M50,16.886c0,1.474-0.574,2.86-1.616,3.902L47.171,22H44.49c0.979-1.537,1.51-3.319,1.51-5.185    c0-1.496-0.354-2.994-1.022-4.333l-1.042-2.084c0.902,0.525,1.826,1.018,2.788,1.446C48.714,12.728,50,14.707,50,16.886z     M27.616,20.788C26.574,19.746,26,18.36,26,16.886c0-2.179,1.286-4.158,3.277-5.042c0.962-0.428,1.885-0.921,2.788-1.446    l-1.043,2.085C30.354,13.821,30,15.319,30,16.815c0,1.866,0.531,3.648,1.51,5.185h-2.681L27.616,20.788z M50,33v12.324    c-1.294,0.5-2.634,0.882-4,1.16v-3.44c0-2.711-1.837-5.064-4.468-5.722c-0.333-0.083-0.639-0.256-0.882-0.499l-1.236-1.236    c-0.78-0.781-2.048-0.781-2.828,0l-1.236,1.236c-0.243,0.243-0.548,0.416-0.882,0.499C31.837,37.979,30,40.333,30,43.043v1.4    c-1.413-0.695-2.752-1.518-4-2.457V33H50z M42,46.953C41.666,46.967,41.336,47,41,47c-2.43,0-4.777-0.355-7-1.005v-2.952    c0-0.873,0.591-1.63,1.438-1.841c0.958-0.239,1.838-0.715,2.562-1.381c0.724,0.666,1.605,1.142,2.562,1.381    C41.409,41.414,42,42.171,42,43.043V46.953z M32,59C17.112,59,5,46.888,5,32c0-7.755,3.222-14.891,8.731-19.913    C12.589,15.229,12,18.568,12,22c0,15.991,13.009,29,29,29c4.451,0,8.779-1.011,12.694-2.921C48.685,54.814,40.675,59,32,59z"/><path d="M61,4h-1V3c0-1.104-0.896-2-2-2s-2,0.896-2,2v1h-1c-1.104,0-2,0.896-2,2s0.896,2,2,2h1v1c0,1.104,0.896,2,2,2s2-0.896,2-2    V8h1c1.104,0,2-0.896,2-2S62.104,4,61,4z"/></g></g></svg>
+                            <img width="30px" src="<?=base_url()?>img/logo.png" alt="">
                         </div>
                     </div>
                     <h4 class="logo-title" style="margin-left:8px;line-height: 4px;height: 0px;">DakNet</h4>

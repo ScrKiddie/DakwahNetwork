@@ -2,7 +2,7 @@
 <!-- ngebug :v -->
 </div></div></div>
 <!-- Footer Section Start -->
-<footer class="footer">
+<footer class="footer" style="margin-top: 100px">
     <div class="footer-body">
         <ul class="left-panel list-inline mb-0 p-0">
             <li class="list-inline-item"><a href="dashboard/extra/privacy-policy.html">Privacy Policy</a></li>
@@ -19,8 +19,8 @@
     </div>
 </footer>
 </main>
-<!-- CustomJS -->
 <script src="<?=base_url()?>customJS/modeButton.js"></script>
+<script src="<?=base_url()?>sweetalert/sweetalert2.all.js"></script>
 <script src="<?=base_url()?>assets/js/core/libs.min.js"></script>
 <script src="<?=base_url()?>assets/js/core/external.min.js"></script>
 <script src="<?=base_url()?>assets/js/charts/widgetcharts.js"></script>
@@ -32,62 +32,6 @@
 <script src="<?=base_url()?>assets/js/plugins/form-wizard.js"></script>
 <script src="<?=base_url()?>assets/vendor/aos/dist/aos.js"></script>
 <script src="<?=base_url()?>assets/js/hope-ui.js" ></script>
-<script>
-    const buttonInput = document.getElementById("uploadGambar");
-    const gambarInput = document.getElementById("image");
-    const gambarAfter = document.getElementById("imageAfter");
-    let cropper;
-    let namaFileOriginal;
-    let typeFileOriginal;
-    buttonInput.addEventListener("change", () => {
-        const [file] = buttonInput.files;
-        if (file ) {
-            if (cropper) {
-                cropper.destroy();
-            }
-            gambarInput.src = URL.createObjectURL(file);
-            gambarInput.onload = () => {
-                cropper = new Cropper(gambarInput, {
-                    aspectRatio: 1,minContainerWidth: 400,
-                    minContainerHeight: 400,
-
-                });
-            };
-
-            let body =document.getElementsByTagName("body")[0];
-            if(body.classList.contains("dark")){
-                document.getElementById("modalgwe").classList.add("dark");
-            }else {
-                document.getElementById("modalgwe").classList.remove("dark");
-            }
-            document.getElementById("triggerButton").click();
-            namaFileOriginal = file.name
-            typeFileOriginal = file.type
-            buttonInput.value = "";
-        }
-        document.getElementById("saveCrop").addEventListener("click", () => {
-            if (cropper) {
-                const croppedCanvas = cropper.getCroppedCanvas({
-                    width: 400,
-                    height: 400,
-
-                });
-                croppedCanvas.toBlob((blob) => {
-                    const file = new File([blob], namaFileOriginal, { type: typeFileOriginal });
-                    const dataTransfer = new DataTransfer();
-                    dataTransfer.items.add(file);
-                    buttonInput.files = dataTransfer.files;
-                    gambarAfter.src = URL.createObjectURL(file);
-                });
-            }
-
-        });
-    });
-    function klikInput(){
-        document.getElementById("uploadGambar").click()
-    }
-
-</script>
-    <script src="<?=base_url()?>cropperjs/cropper.js"></script>
+<script src="<?=base_url()?>cropperjs/cropper.js" ></script>
     </body>
 </html>

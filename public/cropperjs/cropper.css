@@ -9,7 +9,7 @@
  */
 
 .cropper-container {
-  direction: ltr;
+    direction: ltr;
   font-size: 0;
   line-height: 0;
   position: relative;

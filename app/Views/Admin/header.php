@@ -14,9 +14,19 @@
     <link rel="stylesheet" href="<?=base_url()?>assets/css/rtl.min.css"/>
     <link rel="stylesheet" href="<?=base_url()?>cropperjs/cropper.css"/>
     <style>
-        canvas{
-            max-width: 100% !important;
+
+        .swal2-popup .swal2-styled:focus {
+            box-shadow: none !important;
         }
+        .swal2-container .swal2-styled {
+            font-weight: unset !important;
+        }
+        @media only screen and (min-width:1156px) {
+            #imageAfter{
+                width: 400px !important;height: 400px !important;
+            }
+        }
+
         .show {
             transform: translateY(0) !important;
         }
@@ -38,6 +48,9 @@
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #3a57e8;
+        }
+        .swal2-container .swal2-html-container{
+            overflow: hidden;
         }
     </style>
 </head>

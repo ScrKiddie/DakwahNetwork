@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
@@ -13,19 +14,25 @@
     <link rel="stylesheet" href="<?=base_url()?>assets/css/customizer.min.css" />
     <link rel="stylesheet" href="<?=base_url()?>assets/css/rtl.min.css"/>
     <link rel="stylesheet" href="<?=base_url()?>cropperjs/cropper.css"/>
+    <style id="classAneh"></style>
     <style>
-
-        .swal2-popup .swal2-styled:focus {
-            box-shadow: none !important;
-        }
-        .swal2-container .swal2-styled {
-            font-weight: unset !important;
+        @media only screen and (min-width:1156px) {
+            #imageAfterPoster{
+                width: 480px !important;height: 720px !important;
+            }
         }
         @media only screen and (min-width:1156px) {
             #imageAfter{
                 width: 400px !important;height: 400px !important;
             }
         }
+        .swal2-popup .swal2-styled:focus {
+            box-shadow: none !important;
+        }
+        .swal2-container .swal2-styled {
+            font-weight: unset !important;
+        }
+
 
         .show {
             transform: translateY(0) !important;
@@ -142,7 +149,7 @@
 
                     <ul class="sub-nav collapse " id="sidebar-pengguna" data-bs-parent="#sidebar-menu">
                         <li  class="nav-item">
-                            <a id="buttonCreatePengguna" class="nav-link " href="pengguna.html">
+                            <a id="buttonRegisterPengguna" class="nav-link " href="<?=base_url()?>/admin/penyelenggara/registered">
                                 <i class="icon">
                                     <svg  class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                         <g>
@@ -151,7 +158,18 @@
                                     </svg>
                                 </i>
                                 <i class="sidenav-mini-icon"> P </i>
-                                <span class="item-name">Pendaftaran</span>
+                                <span class="item-name">List Pendaftar</span>
+                            </a>
+                            <a id="buttonAddPengguna" class="nav-link " href="<?=base_url()?>/admin/penyelenggara/new">
+                                <i class="icon">
+                                    <svg  class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                        <g>
+                                            <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                        </g>
+                                    </svg>
+                                </i>
+                                <i class="sidenav-mini-icon"> A </i>
+                                <span class="item-name">Add Penyelenggara</span>
                             </a>
                             <a id="buttonListPengguna" class="nav-link " href="<?=base_url()?>admin/penyelenggara">
                                 <i class="icon">
@@ -162,7 +180,7 @@
                                     </svg>
                                 </i>
                                 <i class="sidenav-mini-icon"> L </i>
-                                <span class="item-name">Penyelenggara</span>
+                                <span class="item-name">List Penyelenggara</span>
                             </a>
                         </li>
                     </ul>
@@ -170,10 +188,9 @@
 
 
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="collapse" href="#utilities-error" role="button" aria-expanded="false" aria-controls="utilities-error">
+                    <a id="buttonDakwah" class="nav-link" data-bs-toggle="collapse" href="#sidebar-dakwah" role="button" aria-expanded="false" aria-controls="sidebar-dakwah">
                         <i class="icon">
-                            <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.81 2H16.191C19.28 2 21 3.78 21 6.83V17.16C21 20.26 19.28 22 16.191 22H7.81C4.77 22 3 20.26 3 17.16V6.83C3 3.78 4.77 2 7.81 2ZM8.08 6.66V6.65H11.069C11.5 6.65 11.85 7 11.85 7.429C11.85 7.87 11.5 8.22 11.069 8.22H8.08C7.649 8.22 7.3 7.87 7.3 7.44C7.3 7.01 7.649 6.66 8.08 6.66ZM8.08 12.74H15.92C16.35 12.74 16.7 12.39 16.7 11.96C16.7 11.53 16.35 11.179 15.92 11.179H8.08C7.649 11.179 7.3 11.53 7.3 11.96C7.3 12.39 7.649 12.74 8.08 12.74ZM8.08 17.31H15.92C16.319 17.27 16.62 16.929 16.62 16.53C16.62 16.12 16.319 15.78 15.92 15.74H8.08C7.78 15.71 7.49 15.85 7.33 16.11C7.17 16.36 7.17 16.69 7.33 16.95C7.49 17.2 7.78 17.35 8.08 17.31Z" fill="currentColor"></path>      </svg>
+                            <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                <path opacity="0.4" d="M16.191 2H7.81C4.77 2 3 3.78 3 6.83V17.16C3 20.26 4.77 22 7.81 22H16.191C19.28 22 21 20.26 21 17.16V6.83C21 3.78 19.28 2 16.191 2Z" fill="currentColor"></path>                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.07996 6.6499V6.6599C7.64896 6.6599 7.29996 7.0099 7.29996 7.4399C7.29996 7.8699 7.64896 8.2199 8.07996 8.2199H11.069C11.5 8.2199 11.85 7.8699 11.85 7.4289C11.85 6.9999 11.5 6.6499 11.069 6.6499H8.07996ZM15.92 12.7399H8.07996C7.64896 12.7399 7.29996 12.3899 7.29996 11.9599C7.29996 11.5299 7.64896 11.1789 8.07996 11.1789H15.92C16.35 11.1789 16.7 11.5299 16.7 11.9599C16.7 12.3899 16.35 12.7399 15.92 12.7399ZM15.92 17.3099H8.07996C7.77996 17.3499 7.48996 17.1999 7.32996 16.9499C7.16996 16.6899 7.16996 16.3599 7.32996 16.1099C7.48996 15.8499 7.77996 15.7099 8.07996 15.7399H15.92C16.319 15.7799 16.62 16.1199 16.62 16.5299C16.62 16.9289 16.319 17.2699 15.92 17.3099Z" fill="currentColor"></path>                                </svg>
                         </i>
                         <span class="item-name">Dakwah</span>
                         <i class="right-icon">
@@ -182,9 +199,10 @@
                             </svg>
                         </i>
                     </a>
-                    <ul class="sub-nav collapse" id="utilities-error" data-bs-parent="#sidebar-menu">
-                        <li class="nav-item">
-                            <a class="nav-link " href="dashboard/errors/maintenance.html">
+
+                    <ul class="sub-nav collapse " id="sidebar-dakwah" data-bs-parent="#sidebar-menu">
+                        <li  class="nav-item">
+                            <a id="buttonAddDakwah" class="nav-link " href="<?=base_url()?>/admin/dakwah/new">
                                 <i class="icon">
                                     <svg  class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                         <g>
@@ -192,7 +210,19 @@
                                         </g>
                                     </svg>
                                 </i>
-                                <span class="item-name">Maintenance</span>
+                                <i class="sidenav-mini-icon"> A </i>
+                                <span class="item-name">Add Dakwah</span>
+                            </a>
+                            <a id="buttonListDakwah" class="nav-link " href="<?=base_url()?>admin/dakwah">
+                                <i class="icon">
+                                    <svg  class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                        <g>
+                                            <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                        </g>
+                                    </svg>
+                                </i>
+                                <i class="sidenav-mini-icon"> L </i>
+                                <span class="item-name">List Dakwah</span>
                             </a>
                         </li>
                     </ul>

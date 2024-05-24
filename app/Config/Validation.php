@@ -7,6 +7,7 @@ use CodeIgniter\Validation\StrictRules\CreditCardRules;
 use CodeIgniter\Validation\StrictRules\FileRules;
 use CodeIgniter\Validation\StrictRules\FormatRules;
 use CodeIgniter\Validation\StrictRules\Rules;
+use App\CustomValidation\CustomRules;
 
 class Validation extends BaseConfig
 {
@@ -25,6 +26,7 @@ class Validation extends BaseConfig
         FormatRules::class,
         FileRules::class,
         CreditCardRules::class,
+        CustomRules::class
     ];
 
     /**
@@ -169,8 +171,93 @@ class Validation extends BaseConfig
         ],
     ];
 
-
-
+    public $dakwahRules = [
+        'judul' => [
+            'rules' => 'required|max_length[255]',
+            'errors' => [
+                'required' => 'Judul wajib diisi.',
+                'max_length' => 'Judul tidak boleh lebih dari 255 karakter.'
+            ]
+        ],
+        'tema' => [
+            'rules' => 'required|max_length[255]',
+            'errors' => [
+                'required' => 'Tema wajib diisi.',
+                'max_length' => 'Tema tidak boleh lebih dari 255 karakter.'
+            ]
+        ],
+        'waktuMulai' => [
+            'rules' => 'required|checkDateTimeFormat',
+            'errors'=>[
+                'required' => 'Waktu mulai wajib diisi.'
+            ]
+        ],
+        'durasi' => [
+            'rules' => 'required|integer|checkDuration',
+            'errors' => [
+                'required' => 'Durasi wajib diisi.',
+                'integer' => 'Durasi harus berupa angka.'
+            ]
+        ],
+        'pendakwah' => [
+            'rules' => 'required|max_length[255]',
+            'errors' => [
+                'required' => 'Nama pendakwah wajib diisi.',
+                'max_length' => 'Nama pendakwah tidak boleh lebih dari 255 karakter.'
+            ]
+        ],
+        'deskripsi' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Deskripsi tidak boleh kosong.'
+            ]
+        ],
+        'lokasi' => [
+            'rules' => 'required|max_length[255]',
+            'errors' => [
+                'required' => 'Lokasi tidak boleh kosong.',
+                'max_length' => 'Lokasi tidak boleh lebih dari 255 karakter.'
+            ]
+        ],
+        'id_penyelenggara' => [
+            'rules' => 'required|integer|is_not_unique[penyelenggara.id]',
+            'errors' => [
+                'required' => 'Lembaga wajib diisi.',
+                'integer' => 'Lembaga tidak ditemukan.',
+                'is_not_unique' => 'Lembaga tidak ditemukan.'
+            ]
+        ]
+    ];
+    public array $posterAddRule=[
+        'posterPict' => [
+            'rules' => 'uploaded[posterPict]|ext_in[posterPict,png,jpg,jpeg]|max_size[posterPict,5120]|max_dims[posterPict,480,720]',
+            'errors' => [
+                'uploaded' =>'File foto poster harus diisi.',
+                'ext_in' => 'Ekstensi file foto poster harus .png, .jpg, atau .jpeg.',
+                'max_size' => 'Ukuran file foto poster tidak boleh lebih dari 5MB.',
+                'max_dims' => 'Dimensi file harus 480:720.'
+            ]
+        ]
+    ];
+    public array $posterUpdateRule=[
+        'posterPict' => [
+            'rules' => 'ext_in[posterPict,png,jpg,jpeg]|max_size[posterPict,5120]|max_dims[posterPict,480,720]',
+            'errors' => [
+                'ext_in' => 'Ekstensi file foto poster harus .png, .jpg, atau .jpeg.',
+                'max_size' => 'Ukuran file foto poster tidak boleh lebih dari 5MB.',
+                'max_dims' => 'Dimensi file harus 480:720.'
+            ]
+        ]
+    ];
+    public array $idDakwahRule=[
+        'id' => [
+            'rules' => 'required|is_natural_no_zero|is_not_unique[dakwah.id]',
+            'errors' => [
+                'required' => 'ID wajib diisi.',
+                'is_not_unique' => 'ID tidak ditemukan di database.'
+            ]
+        ]
+    ];
 
 
     // --------------------------------------------------------------------

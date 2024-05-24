@@ -19,8 +19,24 @@ include 'header.php';
                                     </svg>
                                 </div>
                                 <div class="progress-detail">
-                                    <p  class="mb-2">Pengguna</p>
+                                    <p  class="mb-2">Pengguna Aktif</p>
                                     <h4 class="counter"><?=$this->data[0]?></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">
+                        <div class="card-body">
+                            <div class="progress-widget">
+                                <div id="circle-progress-07" class="text-center circle-progress-01 circle-progress circle-progress-danger" data-min-value="0" data-max-value="1000" data-value="150" data-type="percent">
+                                    <svg class="card-slie-arrow icon-24 " width="24" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
+                                    </svg>
+                                </div>
+                                <div class="progress-detail">
+                                    <p  class="mb-2">Pengguna Mendaftar</p>
+                                    <h4 class="counter"><?=$this->data[1]?></h4>
                                 </div>
                             </div>
                         </div>
@@ -28,14 +44,29 @@ include 'header.php';
                     <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">
                         <div class="card-body">
                             <div class="progress-widget">
-                                <div id="circle-progress-07" class="text-center circle-progress-01 circle-progress circle-progress-primary" data-min-value="0" data-max-value="1000" data-value="150" data-type="percent">
+                                <div id="circle-progress-09" class="text-center circle-progress-01 circle-progress circle-progress-warning" data-min-value="0" data-max-value="1000" data-value="150" data-type="percent">
                                     <svg class="card-slie-arrow icon-24 " width="24" viewBox="0 0 24 24">
                                         <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
                                     </svg>
                                 </div>
                                 <div class="progress-detail">
-                                    <p  class="mb-2">Dakwah</p>
-                                    <h4 class="counter"><?=$this->data[1]?></h4>
+                                    <p  class="mb-2">Dakwah Berlangsung</p>
+                                    <h4 class="counter"><?=$this->data[2]?></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">
+                        <div class="card-body">
+                            <div class="progress-widget">
+                                <div id="circle-progress-08" class="text-center circle-progress-01 circle-progress circle-progress-primary" data-min-value="0" data-max-value="1000" data-value="150" data-type="percent">
+                                    <svg class="card-slie-arrow icon-24 " width="24" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
+                                    </svg>
+                                </div>
+                                <div class="progress-detail">
+                                    <p  class="mb-2">Dakwah Berakhir</p>
+                                    <h4 class="counter"><?=$this->data[3]?></h4>
                                 </div>
                             </div>
                         </div>

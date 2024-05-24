@@ -6,7 +6,7 @@ include 'header.php';
         buttonPengguna.setAttribute("aria-expanded", "true");
         subButtonPengguna = document.getElementById("sidebar-pengguna");
         subButtonPengguna.classList.add("show");
-        buttonPengguna2 = document.getElementById("buttonListPengguna");
+        buttonPengguna2 = document.getElementById("buttonAddPengguna");
         buttonPengguna2.classList.add("active");
     </script>
     <?php
@@ -92,9 +92,6 @@ include 'header.php';
                     </div>
                 </div>
                 <button style="margin-left: 10px; margin-top: 10px" class="btn btn-primary " type="submit">Submit</button>
-                <a href="/admin/penyelenggara" class="btn btn-danger flex-row align-itr" style=" margin-top: 10px;margin-left: 5px" role="button">
-                    Cancel
-                </a>
             </form>
         </div>
     </div>

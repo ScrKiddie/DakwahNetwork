@@ -4,17 +4,17 @@
         buttonPengguna.setAttribute("aria-expanded", "true");
         subButtonPengguna = document.getElementById("sidebar-pengguna");
         subButtonPengguna.classList.add("show");
-        buttonPengguna2 = document.getElementById("buttonListPengguna");
+        buttonPengguna2 = document.getElementById("buttonRegisterPengguna");
         buttonPengguna2.classList.add("active");
     </script>
-    <?php
+<?php
     $success = session()->getFlashdata();
     if (isset($success["success"])){?>
-    <div class="mb-3 alert alert-bottom alert-success alert-dismissible fade show" role="alert">
-        <span>Berhasil <?=$success["success"]?> data penyelenggara!</span>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    <?php
+        <div class="mb-3 alert alert-bottom alert-success alert-dismissible fade show" role="alert">
+            <span>Berhasil <?=$success["success"]?> data penyelenggara!</span>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php
     }
         ?>
     <div class="row">
@@ -22,16 +22,8 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between" style="align-items: center">
                     <div class="header-title">
-                        <h4 class="card-title">Penyelenggara</h4>
+                        <h4 class="card-title">Penyelenggara Pendaftar</h4>
                     </div>
-<!--                    <a href="/admin/penyelenggara/new" class="text-center btn btn-primary mt-lg-0 mt-md-0 mt-3" style="margin-top: 0px !important; padding: 3px 15px 3px 5px;display: flex;justify-content: center;align-items: center">-->
-<!--                        <i class="btn-inner">-->
-<!--                            <svg style="margin-top: 3px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-<!--                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>-->
-<!--                            </svg>-->
-<!--                        </i>-->
-<!--                        <span>Tambah</span>-->
-<!--                    </a>-->
                 </div>
                 <div class="card-body">
                     <div class="table-responsive  my-3">
@@ -48,26 +40,24 @@
                             </thead>
                             <tbody>
                             <?php
-                                foreach ($data as $value):
-                            ?>
-                            <tr>
-                                <td><?=esc($value['email'])?></td>
-                                <td><?=esc($value['username'])?></td>
-                                <td><?=esc($value['namaLembaga'])?></td>
-                                <td><?=esc($value['alamatLembaga'])?></td>
-                                <td><?=esc($value['noTelp'])?></td>
-                                <td>
-                                    <div style="center">
-                                        <a class="btn btn-sm btn-icon text-primary flex-end" data-bs-toggle="tooltip" href="/admin/penyelenggara/edit?id=<?=$value['id']?>" aria-label="Edit User" >
+                            foreach ($data as $value):
+                                ?>
+                                <tr>
+                                    <td><?=$value['email']?></td>
+                                    <td><?=$value['username']?></td>
+                                    <td><?=$value['namaLembaga']?></td>
+                                    <td><?=$value['alamatLembaga']?></td>
+                                    <td><?=$value['noTelp']?></td>
+                                    <td>
+                                        <div style="center">
+                                            <button id="deleteCRUD" class="btn btn-sm btn-icon text-success" onclick="acceptButton(<?=$value['id']?>)" aria-label="Delete User" data-bs-original-title="Delete User">
                                         <span class="btn-inner">
-                                            <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                            </svg>
+                                                                            <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path d="M12.0001 8.32739V15.6537" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M15.6668 11.9904H8.3335" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.6857 2H7.31429C4.04762 2 2 4.31208 2 7.58516V16.4148C2 19.6879 4.0381 22 7.31429 22H16.6857C19.9619 22 22 19.6879 22 16.4148V7.58516C22 4.31208 19.9619 2 16.6857 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                            </svg>
                                         </span>
-                                        </a>
-                                        <button id="deleteCRUD" class="btn btn-sm btn-icon text-danger" onclick="deleteButton(<?=$value['id']?>,'/admin/penyelenggara/delete')" aria-label="Delete User" data-bs-original-title="Delete User">
+                                            </button>
+
+                                            <button id="deleteCRUD" class="btn btn-sm btn-icon text-danger" onclick="deleteButton(<?=$value['id']?>)" aria-label="Delete User" data-bs-original-title="Delete User">
                                         <span class="btn-inner">
                                             <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
                                                 <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -75,12 +65,12 @@
                                                 <path d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                                             </svg>
                                         </span>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
                             <?php
-                                endforeach;
+                            endforeach;
                             ?>
 
                             </tbody>
@@ -91,4 +81,5 @@
         </div>
     </div>
     <script src="<?=base_url()?>customJS/deleteButton.js" defer></script>
+    <script src="<?=base_url()?>customJS/acceptButton.js" defer></script>
 <?php include 'footer.php';?>

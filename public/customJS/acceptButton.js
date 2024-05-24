@@ -1,4 +1,4 @@
-function deleteButton(apa,path){
+function acceptButton(apa){
     const element = document.querySelector(".card-header");
     const warna = getComputedStyle(element).backgroundColor;
     const element2 = document.querySelector(".card-title");
@@ -11,7 +11,7 @@ function deleteButton(apa,path){
         allowOutsideClick:false,
         confirmButtonColor: "#3a57e8",
         cancelButtonColor: "#be3221",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonText: "Yes, accept it!",
         didOpen: () => {
             const popup = Swal.getPopup();
             popup.style.color= warna2;
@@ -22,7 +22,7 @@ function deleteButton(apa,path){
             const formData = new FormData();
             formData.append('id', apa);
 
-            fetch(path, {
+            fetch('/admin/penyelenggara/accept', {
                 method: 'POST',
                 body: formData
             })
@@ -30,8 +30,8 @@ function deleteButton(apa,path){
                     if (response.ok) {
                         Swal.fire({
                             allowOutsideClick:false,
-                            title: "Deleted!",
-                            text: "Your file has been deleted.",
+                            title: "acceptd!",
+                            text: "Your file has been accepted.",
                             icon: "success",
                             confirmButtonColor: "#3a57e8",
                             didOpen: () => {
@@ -45,27 +45,15 @@ function deleteButton(apa,path){
                             }}
                         )
                         ;
-                    }else if (response.status==409){
-                        Swal.fire({
-                            title: "Error!",
-                            text: "Pengelola ini masih memiliki kajian aktif!",
-                            icon: "error",
-                            confirmButtonColor: "#3a57e8",
-                            didOpen: () => {
-                                const popup = Swal.getPopup();
-                                popup.style.color= warna2;
-                                popup.style.backgroundColor = warna;
-                            }
-                        });
                     }
                     else {
-                        throw new Error('Failed to delete the item.');
+                        throw new Error('Failed to accept the item.');
                     }
                 })
                 .catch(error => {
                     Swal.fire({
                         title: "Error!",
-                        text: "Failed to delete the item.",
+                        text: "Failed to accept the item.",
                         icon: "error",
                         confirmButtonColor: "#3a57e8",
                         didOpen: () => {

@@ -6,6 +6,18 @@ use CodeIgniter\Model;
 class DakwahModel extends Model
 {
     protected $table = 'Dakwah';
+    protected $allowedFields = [
+        'judul',
+        'tema',
+        'waktuMulai',
+        'durasi',
+        'status',
+        'pendakwah',
+        'deskripsi',
+        'lokasi',
+        'posterPict',
+        'id_penyelenggara',
+    ];
 //    public function getDakwahWithPenyelenggara(): array
 //    {
 //        return $this->join($this->table, 'Penyelenggara.id = Dakwah.penyelenggara_id')

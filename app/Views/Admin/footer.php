@@ -33,5 +33,27 @@
 <script src="<?=base_url()?>assets/vendor/aos/dist/aos.js"></script>
 <script src="<?=base_url()?>assets/js/hope-ui.js" ></script>
 <script src="<?=base_url()?>cropperjs/cropper.js" ></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var cells = document.querySelectorAll('#example tbody tr td:nth-child(1)');
+        cells.forEach(function(cell) {
+            cell.classList.add('wrapped-text');
+        });
+    });
+
+    function selengkapnyaButton(apa,iya) {
+        let element = document.getElementById(apa);
+        let whitespace = element.style.webkitLineClamp;
+        console.log(whitespace);
+        let element2 = document.getElementById(iya);
+        if (whitespace == '4') {
+            element.style.webkitLineClamp = 'unset';
+            element2.innerHTML = "Lebih Sedikit";
+        } else {
+            element.style.webkitLineClamp = '4';
+            element2.innerHTML = "Selengkapnya";
+        }
+    }
+</script>
     </body>
 </html>

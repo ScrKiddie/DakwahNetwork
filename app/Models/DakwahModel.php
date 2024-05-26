@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 
 class DakwahModel extends Model
 {
-    protected $table = 'Dakwah';
+    protected $table = 'dakwah';
     protected $allowedFields = [
         'judul',
         'tema',

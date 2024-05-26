@@ -56,9 +56,9 @@ if (isset($errors["errors"])){?>
                     <div class="col-md-6 mb-3">
                         <label class="form-label" for="validationDefault03">Durasi</label>
                         <input  name="durasi" autocomplete="off" type="number" class="form-control" id="validationDefault03" >
-                        <div class="d-inline-block align-items-center" style="margin-top: 10px;font-size: 15px">
+                        <div class="d-inline-block align-items-center" style="margin-top: 0px;font-size: 14px">
                             <span>
-                                * Gunakan satuan menit
+                                * Gunakan satuan menit.
                             </span>
                         </div>
                     </div>
@@ -100,7 +100,7 @@ if (isset($errors["errors"])){?>
 
 
 
-                        <div class="d-inline-block align-items-center" style="margin-top: 10px">
+                        <div class="d-inline-block align-items-center" style="font-size: 14px;margin-top: 0px">
                             <span>* Only</span>
                             <a href="javascript:void();">.jpg</a>
                             <a href="javascript:void();">.png</a>

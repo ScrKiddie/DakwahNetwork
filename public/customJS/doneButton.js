@@ -1,4 +1,4 @@
-function acceptButton(apa){
+function doneButton(apa){
     const element = document.querySelector(".card-header");
     const warna = getComputedStyle(element).backgroundColor;
     const element2 = document.querySelector(".card-title");
@@ -11,7 +11,7 @@ function acceptButton(apa){
         allowOutsideClick:false,
         confirmButtonColor: "#3a57e8",
         cancelButtonColor: "#be3221",
-        confirmButtonText: "Yes, accept it!",
+        confirmButtonText: "Yes, done it!",
         didOpen: () => {
             const popup = Swal.getPopup();
             popup.style.color= warna2;
@@ -22,7 +22,7 @@ function acceptButton(apa){
             const formData = new FormData();
             formData.append('id', apa);
 
-            fetch('/admin/penyelenggara/accept', {
+            fetch('/admin/dakwah/done', {
                 method: 'POST',
                 body: formData
             })
@@ -31,7 +31,7 @@ function acceptButton(apa){
                         Swal.fire({
                             allowOutsideClick:false,
                             title: "acceptd!",
-                            text: "Your item has been accepted.",
+                            text: "Kajian berhasil dianggap sebagai selesai.",
                             icon: "success",
                             confirmButtonColor: "#3a57e8",
                             didOpen: () => {

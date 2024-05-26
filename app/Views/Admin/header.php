@@ -15,7 +15,16 @@
     <link rel="stylesheet" href="<?=base_url()?>assets/css/rtl.min.css"/>
     <link rel="stylesheet" href="<?=base_url()?>cropperjs/cropper.css"/>
     <style id="classAneh"></style>
+
+
     <style>
+        #lengkap:focus{
+            background-color: transparent !important;
+        }
+        #lengkap:hover{
+            background-color: transparent !important;
+            color: #3a57e8;
+        }
         @media only screen and (min-width:1156px) {
             #imageAfterPoster{
                 width: 480px !important;height: 720px !important;
@@ -38,13 +47,10 @@
             transform: translateY(0) !important;
         }
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
         }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
+        
         ::-webkit-scrollbar-track {
             box-shadow: inset 0 0 5px grey;
             border-radius: 10px;
@@ -224,11 +230,59 @@
                                 <i class="sidenav-mini-icon"> L </i>
                                 <span class="item-name">List Dakwah</span>
                             </a>
+                            <a id="buttonHistoriDakwah" class="nav-link " href="<?=base_url()?>admin/dakwah/histori">
+                                <i class="icon">
+                                    <svg  class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                                        <g>
+                                            <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                                        </g>
+                                    </svg>
+                                </i>
+                                <i class="sidenav-mini-icon"> H </i>
+                                <span class="item-name">Histori Dakwah</span>
+                            </a>
                         </li>
                     </ul>
                 </li>
+                <li><hr class="hr-horizontal"></li>
+                <li class="nav-item static-item">
+                    <a class="nav-link static-item disabled" href="#" tabindex="-1">
+                        <span class="default-icon">Account</span>
+                        <span class="mini-icon">-</span>
+                    </a>
+                </li>
 
+                <li class="nav-item">
+                    <a id="buttonProfile" class="nav-link" aria-current="page" href="<?=base_url()?>admin/profile">
+                        <i class="icon">
+                            <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4" d="M21.101 9.58786H19.8979V8.41162C19.8979 7.90945 19.4952 7.5 18.999 7.5C18.5038 7.5 18.1 7.90945 18.1 8.41162V9.58786H16.899C16.4027 9.58786 16 9.99731 16 10.4995C16 11.0016 16.4027 11.4111 16.899 11.4111H18.1V12.5884C18.1 13.0906 18.5038 13.5 18.999 13.5C19.4952 13.5 19.8979 13.0906 19.8979 12.5884V11.4111H21.101C21.5962 11.4111 22 11.0016 22 10.4995C22 9.99731 21.5962 9.58786 21.101 9.58786Z" fill="currentColor"></path>
+                                <path d="M9.5 15.0156C5.45422 15.0156 2 15.6625 2 18.2467C2 20.83 5.4332 21.5001 9.5 21.5001C13.5448 21.5001 17 20.8533 17 18.269C17 15.6848 13.5668 15.0156 9.5 15.0156Z" fill="currentColor"></path>
+                                <path opacity="0.4" d="M9.50023 12.5542C12.2548 12.5542 14.4629 10.3177 14.4629 7.52761C14.4629 4.73754 12.2548 2.5 9.50023 2.5C6.74566 2.5 4.5376 4.73754 4.5376 7.52761C4.5376 10.3177 6.74566 12.5542 9.50023 12.5542Z" fill="currentColor"></path>
+                            </svg>
+                        </i>
+                        <span class="item-name">Change Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="buttonPassword" class="nav-link" aria-current="page" href="<?=base_url()?>admin/password">
+                        <i class="icon">
+                            <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                <path opacity="0.4" d="M8.23918 8.70907V7.36726C8.24934 5.37044 9.92597 3.73939 11.9989 3.73939C13.5841 3.73939 15.0067 4.72339 15.5249 6.19541C15.6976 6.65262 16.2057 6.89017 16.663 6.73213C16.8865 6.66156 17.0694 6.50253 17.171 6.29381C17.2727 6.08508 17.293 5.84654 17.2117 5.62787C16.4394 3.46208 14.3462 2 11.9786 2C8.95048 2 6.48126 4.41626 6.46094 7.38714V8.91084L8.23918 8.70907Z" fill="currentColor"></path>                                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.7688 8.71118H16.2312C18.5886 8.71118 20.5 10.5808 20.5 12.8867V17.8246C20.5 20.1305 18.5886 22.0001 16.2312 22.0001H7.7688C5.41136 22.0001 3.5 20.1305 3.5 17.8246V12.8867C3.5 10.5808 5.41136 8.71118 7.7688 8.71118ZM11.9949 17.3286C12.4928 17.3286 12.8891 16.941 12.8891 16.454V14.2474C12.8891 13.7703 12.4928 13.3827 11.9949 13.3827C11.5072 13.3827 11.1109 13.7703 11.1109 14.2474V16.454C11.1109 16.941 11.5072 17.3286 11.9949 17.3286Z" fill="currentColor"></path>                                </svg>
+                        </i>
+                        <span class="item-name">Change Password</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="buttonPassword" class="nav-link" aria-current="page" href="<?=base_url()?>admin/logout">
+                        <i class="icon">
+                            <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                <path opacity="0.4" d="M2 6.447C2 3.996 4.03024 2 6.52453 2H11.4856C13.9748 2 16 3.99 16 6.437V17.553C16 20.005 13.9698 22 11.4744 22H6.51537C4.02515 22 2 20.01 2 17.563V16.623V6.447Z" fill="currentColor"></path>                                <path d="M21.7787 11.4548L18.9329 8.5458C18.6388 8.2458 18.1655 8.2458 17.8723 8.5478C17.5802 8.8498 17.5811 9.3368 17.8743 9.6368L19.4335 11.2298H17.9386H9.54826C9.13434 11.2298 8.79834 11.5748 8.79834 11.9998C8.79834 12.4258 9.13434 12.7698 9.54826 12.7698H19.4335L17.8743 14.3628C17.5811 14.6628 17.5802 15.1498 17.8723 15.4518C18.0194 15.6028 18.2113 15.6788 18.4041 15.6788C18.595 15.6788 18.7868 15.6028 18.9329 15.4538L21.7787 12.5458C21.9199 12.4008 21.9998 12.2048 21.9998 11.9998C21.9998 11.7958 21.9199 11.5998 21.7787 11.4548Z" fill="currentColor"></path>                                </svg>
+                        </i>
+                        <span class="item-name">Logout</span>
+                    </a>
+                </li>
             </ul>
+
+
             <!-- Sidebar Menu End -->
         </div>
     </div>
@@ -253,22 +307,22 @@
                     <div class="btn" style="display: flex;align-items: center;justify-content: center;width: 30px;height: 30px; border-radius: 100%;padding: 0;margin-right: 8px;" id="kuda"></div>
                     <li class="nav-item dropdown">
                         <a class="py-0 nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="<?=base_url()?>img/01.png" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50">
+                            <img src="<?=base_url()."upload/".$this->data["adminData"]["profilePict"]?>" alt="User-Profile" class="theme-color-default-img img-fluid avatar  avatar-45">
                             <img src="<?=base_url()?>assets/images/avatars/avtar_1.png" alt="User-Profile" class="theme-color-purple-img img-fluid avatar avatar-50 avatar-rounded">
                             <img src="<?=base_url()?>assets/images/avatars/avtar_2.png" alt="User-Profile" class="theme-color-blue-img img-fluid avatar avatar-50 avatar-rounded">
                             <img src="<?=base_url()?>assets/images/avatars/avtar_4.png" alt="User-Profile" class="theme-color-green-img img-fluid avatar avatar-50 avatar-rounded">
                             <img src="<?=base_url()?>assets/images/avatars/avtar_5.png" alt="User-Profile" class="theme-color-yellow-img img-fluid avatar avatar-50 avatar-rounded">
                             <img src="<?=base_url()?>assets/images/avatars/avtar_3.png" alt="User-Profile" class="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded">
                             <div class="caption ms-3  d-none d-md-block">
-                                <h6 class="mb-0 caption-title">Hilmi Raif</h6>
+                                <h6 class="mb-0 caption-title"><?=$this->data["adminData"]["username"] ?></h6>
                                 <p class="mb-0 caption-sub-title">Administrator</p>
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="dashboard/app/user-profile.html">Edit Profile</a></li>
-                            <li><a class="dropdown-item" href="dashboard/app/user-profile.html">Change Password</a></li>
+                            <li><a class="dropdown-item" href="/admin/profile">Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="/admin/password">Change Password</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="dashboard/auth/sign-in.html">Logout</a></li>
+                            <li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
                         </ul>
                     </li>
                 </ul>

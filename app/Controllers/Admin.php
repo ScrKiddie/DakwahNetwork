@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Controllers;
-
-use App\Helpers\RequestHelper;
+use DateTime;
+use DateTimeZone;
 use App\Models\DakwahModel;
+use App\Models\AdminModel;
 use App\Models\PenyelenggaraModel;
 use CodeIgniter\Controller;
 use CodeIgniter\Database\Exceptions\DatabaseException;
@@ -13,31 +14,45 @@ use CodeIgniter\Validation\Validation;
 class Admin extends Controller
 {
     private PenyelenggaraModel $penyelenggaraModel;
+    private AdminModel $adminModel;
     private DakwahModel $dakwahModel;
     private Validation $validation;
     private Session $session;
+    private array $adminData;
 
     function __construct()
     {
         $this->penyelenggaraModel = new PenyelenggaraModel();
+        $this->adminModel = new AdminModel();
         $this->dakwahModel = new DakwahModel();
         $this->validation = \Config\Services::validation();
         $this->session = \Config\Services::session();
+
+        //kebutuhan navbar
+        helper('cookie');
+        $token_parts = explode('.', get_cookie("token"));
+        $payload =base64_decode($token_parts[1]);
+        $payloadArray = json_decode($payload, true);
+        $adminModel = new AdminModel();
+        $admin = $adminModel->where("id",$payloadArray['id'])->select("*")->findAll();
+        $this->adminData = array("id"=>$admin[0]["id"],"username"=>$admin[0]["username"],"profilePict"=>$admin[0]["profilePict"]);
+
     }
+
 
     public function dashboard(){
         $penyelenggaraActiveCount = $this->penyelenggaraModel->where("status","active")->countAllResults();
         $penyelenggaraInactiveCount = $this->penyelenggaraModel->where("status","inactive")->countAllResults();
         $dakwahActiveCount = $this->dakwahModel->where("status","active")->countAllResults();
         $dakwahInactiveCount = $this->dakwahModel->where("status","inactive")->countAllResults();
-        return view("admin/dashboard",[$penyelenggaraActiveCount,$penyelenggaraInactiveCount,$dakwahActiveCount,$dakwahInactiveCount]);
+        return view("admin/dashboard",[$penyelenggaraActiveCount,$penyelenggaraInactiveCount,$dakwahActiveCount,$dakwahInactiveCount,"adminData"=>$this->adminData]);
     }
     public function penyelenggara(){
         $penyelenggaraAktif = $this->penyelenggaraModel->where("status","active")->findAll();
-        return view("admin/penyelenggara",["data"=>$penyelenggaraAktif]);
+        return view("admin/penyelenggara",["data"=>$penyelenggaraAktif,"adminData"=>$this->adminData]);
     }
     public function newPenyelenggara(){
-        return view("admin/addPenyelenggara");
+        return view("admin/addPenyelenggara",["adminData"=>$this->adminData]);
     }
     public function addPenyelenggara(){
         $addPenyelenggaraRequest=array(
@@ -86,7 +101,7 @@ class Admin extends Controller
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
         $penyelenggaraById = $this->penyelenggaraModel->where("id",$idPenyelenggara)->findAll();
-        return view("admin/editPenyelenggara",["data"=>$penyelenggaraById]);
+        return view("admin/editPenyelenggara",["data"=>$penyelenggaraById,"adminData"=>$this->adminData]);
     }
 
     public function updatePenyelenggara(){
@@ -165,7 +180,7 @@ class Admin extends Controller
     }
     public function registeredPenyelenggara(){
         $penyelenggaraNonaktif = $this->penyelenggaraModel->where("status","inactive")->findAll();
-        return view("admin/registeredPenyelenggara",["data"=>$penyelenggaraNonaktif]);
+        return view("admin/registeredPenyelenggara",["data"=>$penyelenggaraNonaktif,"adminData"=>$this->adminData]);
     }
 
     public function acceptPenyelenggara(){
@@ -190,16 +205,18 @@ class Admin extends Controller
     }
     function dakwah(){
         $dakwahAktif = $this->dakwahModel->where("status","active")->findAll();
+        date_default_timezone_set('Asia/Jakarta');
         foreach ($dakwahAktif as &$value){
             $value["waktuMulai"]= date('Y-m-d\TH:i', $value["waktuMulai"]);
             $value["durasi"]= $value["durasi"]." Menit";
         }
-        return view("admin/dakwah",["data"=>$dakwahAktif]);
+        return view("admin/dakwah",["data"=>$dakwahAktif,"adminData"=>$this->adminData]);
     }
     function newDakwah(){
-        $namaLembaga = $this->penyelenggaraModel->select("id")->select("namaLembaga")->findAll();
-        return view("admin/addDakwah",["data"=>$namaLembaga]);
+        $namaLembaga = $this->penyelenggaraModel->select("id")->select("namaLembaga")->where("status","active")->findAll();
+        return view("admin/addDakwah",["data"=>$namaLembaga,"adminData"=>$this->adminData]);
     }
+
     function addDakwah(){
         $addDakwahRequest=array(
             "judul" =>$this->request->getPost("judul"),
@@ -229,7 +246,10 @@ class Admin extends Controller
             $file->move(FCPATH."upload", $newFileName);
             $addDakwahRequest["posterPict"] =  $newFileName;
         }
-        $addDakwahRequest["waktuMulai"]=strtotime($addDakwahRequest["waktuMulai"]);
+        $dateTime = new DateTime($addDakwahRequest["waktuMulai"], new DateTimeZone('Asia/Jakarta'));
+        $dateTime->setTimezone(new DateTimeZone('UTC'));
+        $givenDateTime = $dateTime->getTimestamp();
+        $addDakwahRequest["waktuMulai"]=$givenDateTime;
         $this->dakwahModel->insert($addDakwahRequest);
         $this->session->setFlashdata(array("success"=>"menambahkan"));
         return redirect("admin/dakwah");
@@ -245,10 +265,11 @@ class Admin extends Controller
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
-        $namaLembaga = $this->penyelenggaraModel->select("id")->select("namaLembaga")->findAll();
+        $namaLembaga = $this->penyelenggaraModel->select("id")->select("namaLembaga")->where("status","active")->findAll();
         $dakwahById = $this->dakwahModel->where("id",$idDakwah)->findAll();
+        date_default_timezone_set('Asia/Jakarta');
         $dakwahById[0]["waktuMulai"]= date('Y-m-d\TH:i', $dakwahById[0]["waktuMulai"]);
-        return view("admin/editDakwah",["data"=>$dakwahById,"data2"=>$namaLembaga]);
+        return view("admin/editDakwah",["data"=>$dakwahById,"data2"=>$namaLembaga,"adminData"=>$this->adminData]);
     }
 
     function updateDakwah(){
@@ -295,8 +316,10 @@ class Admin extends Controller
                 }
             }
         }
-
-        $updateDakwahRequest["waktuMulai"]=strtotime($updateDakwahRequest["waktuMulai"]);
+        $dateTime = new DateTime($updateDakwahRequest["waktuMulai"], new DateTimeZone('Asia/Jakarta'));
+        $dateTime->setTimezone(new DateTimeZone('UTC'));
+        $givenDateTime = $dateTime->getTimestamp();
+        $updateDakwahRequest["waktuMulai"]=$givenDateTime;
         $this->dakwahModel->update($idDakwah,$updateDakwahRequest);
         $this->session->setFlashdata(array("success"=>"mengubah"));
         return redirect("admin/dakwah");
@@ -319,4 +342,101 @@ class Admin extends Controller
             return $response;
         }
     }
+
+    function historiDakwah(){
+        $dakwahAktif = $this->dakwahModel->where("status","inactive")->findAll();
+        foreach ($dakwahAktif as &$value){
+            $value["waktuMulai"]= date('Y-m-d\TH:i', $value["waktuMulai"]);
+            $value["durasi"]= $value["durasi"]." Menit";
+        }
+        return view("admin/historiDakwah",["data"=>$dakwahAktif,"adminData"=>$this->adminData]);
+    }
+
+    public function doneDakwah(){
+        $idDakwah = $this->request->getPost("id");
+        if(!$this->validation->run(["id"=>$idDakwah],"idDakwahRule")){
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $statusAkun = $this->dakwahModel->where('id', $idDakwah)->select("status")
+            ->findAll()[0];
+        if ($statusAkun["status"]=="inactive") {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        if($this->dakwahModel->update($idDakwah, ["status"=>"inactive"])){
+            $response = service('response');
+            $response->setStatusCode(200);
+            return $response;
+        }
+    }
+    public function adminProfile(){
+       return view("admin/profileAdmin",["adminData"=>$this->adminData]);
+    }
+    public function saveAdminProfile(){
+        $adminRequest=array(
+            "id"=>$this->adminData["id"],
+            "username"=>$this->request->getPost("username"),
+            "profilePict"=>"default.jpg"
+        );
+        if (!$this->validation->run($adminRequest,"adminRule")){
+            $errors = $this->validation->getErrors();
+            $this->session->setFlashdata(array("errors"=>$errors));
+            return redirect()->to(base_url()."admin/profile");
+        }
+
+        $file = $this->request->getFile("profilePict");
+        if (isset($file)){
+            if ($file->isFile()){
+                if (!$this->validation->run([],"fileRule")) {
+                    $errors = $this->validation->getErrors();
+                    $this->session->setFlashdata(array("errors"=>$errors));
+                    return redirect()->to(base_url()."admin/profile" );
+                }else{
+                    $fileExtension = $file->getClientExtension();
+                    $newFileName = uniqid() . "." . $fileExtension;
+                    $file->move(FCPATH."upload", $newFileName);
+                    $adminRequest["profilePict"] =  $newFileName;
+                    //hapus
+                    $fileById=$this->adminModel->where("id", $this->adminData["id"])->select("profilePict")->findAll();
+                    $fileNameById=$fileById[0]['profilePict'];
+                    $filePath = FCPATH . 'upload/' . $fileNameById;
+                    if ($fileNameById!="default.jpg" && file_exists($filePath)){
+                        unlink($filePath);
+                    }
+                }
+            }
+        }
+
+        $this->adminModel->update($this->adminData["id"],$adminRequest);
+        $this->session->setFlashdata(array("success"=>"mengubah"));
+        return redirect("admin/profile");
+    }
+    public function passwordAdmin(){
+        return view("admin/password",["adminData"=>$this->adminData]);
+    }
+    public function updatePasswordAdmin(){
+        $adminRequest = array(
+            "id"=>$this->adminData["id"],
+            "oldPass"=> $this->request->getPost("oldPass"),
+            "newPass"=> $this->request->getPost("newPass"),
+            "repeatNewPass"=> $this->request->getPost("repeatNewPass"),
+        );
+        if (!$this->validation->run($adminRequest,"adminPasswordRule")){
+            $errors = $this->validation->getErrors();
+            $this->session->setFlashdata(array("errors"=>$errors));
+            return redirect()->to(base_url()."admin/password");
+        }
+        $this->adminModel->update($adminRequest["id"],["password"=>$adminRequest["newPass"]]);
+        $this->session->setFlashdata(array("success"=>"mengubah"));
+        return redirect("admin/password");
+    }
+    public function logoutAdmin(){
+        if (isset($_COOKIE['token'])) {
+            unset($_COOKIE['token']);
+            setcookie('token', '', time() - 3600, '/');
+            return redirect("admin/login");
+        }else{
+            redirect("admin/login");
+        }
+    }
+
 }

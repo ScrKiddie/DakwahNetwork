@@ -77,7 +77,7 @@ include 'header.php';
 
 
 
-                        <div class="d-inline-block align-items-center" style="margin-top: 10px">
+                        <div class="d-inline-block align-items-center" style="font-size: 14px;margin-top: 0px">
                             <span>* Only</span>
                             <a href="javascript:void();">.jpg</a>
                             <a href="javascript:void();">.png</a>
@@ -85,7 +85,7 @@ include 'header.php';
                             <span>allowed.</span>
                         </div>
                         <br>
-                        <div class="d-inline-block align-items-center">
+                        <div style="font-size: 14px;" class="d-inline-block align-items-center">
                             <span>* If not change, it will use default profile picture.</span>
                         </div>
 

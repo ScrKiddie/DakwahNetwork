@@ -258,7 +258,71 @@ class Validation extends BaseConfig
             ]
         ]
     ];
+    public array $authRule=[
+        'username' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Username harus diisi.',
+            ]
+        ],
+        'password' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Password harus diisi.',
+            ]
+        ]
+    ];
 
+    public array $adminRule=[
+        'id' => [
+            'rules' => 'required|is_natural_no_zero|is_not_unique[admin.id]',
+            'errors' => [
+                'required' => 'ID wajib diisi.',
+                'is_not_unique' => 'ID tidak ditemukan di database.'
+            ]
+        ],
+        'username' => [
+            'rules' => 'required|min_length[5]|max_length[50]|is_unique[admin.username,id,{id}]',
+            'errors' => [
+                'required' => 'Username wajib diisi.',
+                'max_length' => 'Username tidak boleh lebih dari 50 karakter.',
+                'min_length' => 'Username harus terdiri dari minimal 5 karakter.',
+                'is_unique' => 'Username sudah terdaftar. Silakan pilih yang lain.',
+            ]
+        ]
+    ];
+
+    public array $adminPasswordRule = [
+        'id' => [
+            'rules' => 'required|is_natural_no_zero|is_not_unique[admin.id]',
+            'errors' => [
+                'required' => 'ID wajib diisi.',
+                'is_not_unique' => 'ID tidak ditemukan di database.'
+            ]
+        ],
+        'oldPass' => [
+            'rules' => 'required|is_not_unique[admin.password,id,{id}]',
+            'errors' => [
+                'required' => 'Password wajib diisi.',
+                'is_not_unique' => 'Password lama yang anda masukkan salah.'
+            ]
+        ],
+        'newPass' => [
+            'rules' => 'required|min_length[5]|max_length[255]',
+            'errors' => [
+                'required' => 'Password baru wajib diisi.',
+                'min_length' => 'Password baru harus terdiri dari minimal 5 karakter.',
+                'max_length' => 'Password baru tidak boleh lebih dari 255 karakter.'
+            ]
+        ],
+        'repeatNewPass' => [
+            'rules' => 'required|matches[newPass]',
+            'errors' => [
+                'required' => 'Password ulang wajib diisi.',
+                'matches' => 'Password baru dan ulang password tidak cocok.'
+            ]
+        ],
+    ];
 
     // --------------------------------------------------------------------
     // Rules

@@ -9,8 +9,8 @@ include 'header.php';
     <div class="col-md-12 col-lg-12">
         <div class="row row-cols-1">
             <div class="overflow-hidden d-slider1 ">
-                <ul  class="p-0 m-0 mb-2 swiper-wrapper list-inline">
-                    <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1200">
+                <ul class="p-0 m-0 mb-2 swiper-wrapper list-inline">
+                    <li style="max-width: 1000px" class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1200">
                         <div class="card-body">
                             <div class="progress-widget">
                                 <div id="circle-progress-06" class="text-center circle-progress-01 circle-progress circle-progress-info" data-min-value="0" data-max-value="1000" data-value="100" data-type="percent">
@@ -19,7 +19,7 @@ include 'header.php';
                                     </svg>
                                 </div>
                                 <div class="progress-detail">
-                                    <p  class="mb-2">Pengguna Aktif</p>
+                                    <p  class="mb-2">Pengguna</p>
                                     <h4 class="counter"><?=$this->data[0]?></h4>
                                 </div>
                             </div>
@@ -35,7 +35,7 @@ include 'header.php';
                                     </svg>
                                 </div>
                                 <div class="progress-detail">
-                                    <p  class="mb-2">Pengguna Mendaftar</p>
+                                    <p  class="mb-2">Pendaftar</p>
                                     <h4 class="counter"><?=$this->data[1]?></h4>
                                 </div>
                             </div>
@@ -50,7 +50,7 @@ include 'header.php';
                                     </svg>
                                 </div>
                                 <div class="progress-detail">
-                                    <p  class="mb-2">Dakwah Berlangsung</p>
+                                    <p  class="mb-2">Dakwah</p>
                                     <h4 class="counter"><?=$this->data[2]?></h4>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@ include 'header.php';
                                     </svg>
                                 </div>
                                 <div class="progress-detail">
-                                    <p  class="mb-2">Dakwah Berakhir</p>
+                                    <p  class="mb-2">Rekapan</p>
                                     <h4 class="counter"><?=$this->data[3]?></h4>
                                 </div>
                             </div>

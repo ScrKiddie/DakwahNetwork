@@ -14,14 +14,15 @@ class CustomRules
     {
         $format = 'Y-m-d\TH:i';
         $dateTime = DateTime::createFromFormat($format, $value);
-
         if ($dateTime && $dateTime->format($format) === $value) {
-            $now = new DateTime('now', new DateTimeZone('UTC'));
-            $givenDateTime = new DateTime($value, new DateTimeZone('UTC'));
+            $now = time();
+            $dateTime = new DateTime($value, new DateTimeZone('Asia/Jakarta'));
+            $dateTime->setTimezone(new DateTimeZone('UTC'));
+            $givenDateTime = $dateTime->getTimestamp();
             if ($givenDateTime >= $now) {
                 return true;
             } else {
-                $error = "Waktu mulai tidak boleh kurang dari hari ini.";
+                $error = "Waktu mulai tidak boleh kurang dari waktu saat ini.";
                 return false;
             }
         } else {

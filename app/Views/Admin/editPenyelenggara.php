@@ -62,7 +62,7 @@ if (isset($errors["errors"])){?>
                         <label class="form-label" for="validationDefault04">Password</label>
                         <input name="password" autocomplete="off" type="password" class="form-control" id="exampleInputPassword3">
                         <div class="d-inline-block align-items-center">
-                            <span style="font-size: 15px" >* Leave empty to use previous password.</span>
+                            <span style="font-size: 15px;margin-top: 0px" >* Leave empty to use previous password.</span>
                         </div>
                     </div>
 
@@ -76,7 +76,7 @@ if (isset($errors["errors"])){?>
                         <button style=" padding: 0;margin: 0;width: fit-content;height: fit-content" class="form-control" type="button" onclick="klikInput()">
                             <img  id="imageAfter" style="border-radius: 0.25rem;width: 100%;height: 100%; padding: 0px" src="<?=base_url()."/upload/".$data[0]["profilePict"]?>">
                         </button>
-                        <div class="d-inline-block align-items-center" style="margin-top: 10px ;font-size: 15px">
+                        <div class="d-inline-block align-items-center" style="margin-top: 0px ;font-size: 15px">
                             <span >* Only</span>
                             <a href="javascript:void();">.jpg</a>
                             <a href="javascript:void();">.png</a>

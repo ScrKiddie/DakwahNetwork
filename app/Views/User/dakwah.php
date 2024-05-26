@@ -24,14 +24,6 @@ if (isset($success["success"])){?>
                     <div class="header-title">
                         <h4 class="card-title">Dakwah</h4>
                     </div>
-                    <!--                    <a href="/admin/penyelenggara/new" class="text-center btn btn-primary mt-lg-0 mt-md-0 mt-3" style="margin-top: 0px !important; padding: 3px 15px 3px 5px;display: flex;justify-content: center;align-items: center">-->
-                    <!--                        <i class="btn-inner">-->
-                    <!--                            <svg style="margin-top: 3px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-                    <!--                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>-->
-                    <!--                            </svg>-->
-                    <!--                        </i>-->
-                    <!--                        <span>Tambah</span>-->
-                    <!--                    </a>-->
                 </div>
                 <div class="card-body">
                     <div class="table-responsive  my-3">
@@ -77,18 +69,18 @@ if (isset($success["success"])){?>
                                             <?=esc($value['deskripsi'])?>
                                         </p>
                                         <?php
-                                            if(strlen($value['deskripsi'])>151){
-                                                ?>
-                                                <button id="lengkap" onclick="selengkapnyaButton('selengkapnyake<?=$count?>','lengkap<?=$count?>')" class="btn btn-outline-primary" style="width: 25%;height: 25px;font-size: 75%;padding: 0px">
-                                                    <span id="lengkap<?=$count?>">Selengkapnya</span>
-                                                </button>
-                                        <?php
+                                        if(strlen($value['deskripsi'])>151){
+                                            ?>
+                                            <button id="lengkap" onclick="selengkapnyaButton('selengkapnyake<?=$count?>','lengkap<?=$count?>')" class="btn btn-outline-primary" style="width: 25%;height: 25px;font-size: 75%;padding: 0px">
+                                                <span id="lengkap<?=$count?>">Selengkapnya</span>
+                                            </button>
+                                            <?php
                                         }
                                         ?>
                                     </td>
                                     <td>
                                         <div style="center">
-                                            <button id="acceptCRUD" class="btn btn-sm btn-icon text-success" onclick="doneButton(<?=$value['id']?>,'/admin/dakwah/done')" aria-label="Done Dakwah" data-bs-original-title="Delete User">
+                                            <button id="acceptCRUD" class="btn btn-sm btn-icon text-success" onclick="doneButton(<?=$value['id']?>,'/user/dakwah/done')" aria-label="Done Dakwah" data-bs-original-title="Delete User">
                                         <span class="btn-inner">
                                              <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M2.75 12C2.75 17.108 6.891 21.25 12 21.25C17.108 21.25 21.25 17.108 21.25 12C21.25 6.892 17.108 2.75 12 2.75C6.891 2.75 2.75 6.892 2.75 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -96,7 +88,7 @@ if (isset($success["success"])){?>
                                             </svg>
                                         </span>
                                             </button>
-                                            <a class="btn btn-sm btn-icon text-primary flex-end" data-bs-toggle="tooltip" href="/admin/dakwah/edit?id=<?=$value['id']?>" aria-label="Edit Dakwah" >
+                                            <a class="btn btn-sm btn-icon text-primary flex-end" data-bs-toggle="tooltip" href="/user/dakwah/edit?id=<?=$value['id']?>" aria-label="Edit Dakwah" >
                                         <span class="btn-inner">
                                             <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -105,7 +97,7 @@ if (isset($success["success"])){?>
                                             </svg>
                                         </span>
                                             </a>
-                                            <button id="deleteCRUD" class="btn btn-sm btn-icon text-danger" onclick="deleteButton(<?=$value['id']?>,'/admin/dakwah/delete')" aria-label="Delete Dakwah" data-bs-original-title="Delete User">
+                                            <button id="deleteCRUD" class="btn btn-sm btn-icon text-danger" onclick="deleteButton(<?=$value['id']?>,'/user/dakwah/delete')" aria-label="Delete Dakwah" data-bs-original-title="Delete User">
                                         <span class="btn-inner">
                                             <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
                                                 <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>

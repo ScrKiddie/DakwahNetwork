@@ -9,20 +9,20 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 
-class Authorization implements FilterInterface
+class UserAuthorization implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        $privateKey = "akahjuwifwabafiwufwbaiuafwbuiawffwaawf";
+        $privateKey = "secret_key_user";
         $cookies = $request->getCookie("token");
         if (isset($cookies)) {
             try {
                 $decoded = JWT::decode($cookies, new Key($privateKey, 'HS256'));
             }catch (\Exception){
-                return redirect("admin/login");
+                return redirect("user/login");
             }
         }else{
-            return redirect("admin/login");
+            return redirect("user/login");
         }
     }
 

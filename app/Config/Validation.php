@@ -41,7 +41,7 @@ class Validation extends BaseConfig
     ];
     public array $penyelenggaraRules= [
         'email' => [
-            'rules' => 'required|valid_email|max_length[255]|is_unique[penyelenggara.username]',
+            'rules' => 'required|valid_email|max_length[255]|is_unique[penyelenggara.email]',
             'errors' => [
                 'required' => 'Email wajib diisi.',
                 'valid_email' => 'Masukkan format alamat email yang valid.',
@@ -82,12 +82,13 @@ class Validation extends BaseConfig
             ]
         ],
         'noTelp' => [
-            'rules' => 'required|numeric|min_length[10]|max_length[15]',
+            'rules' => 'required|numeric|min_length[10]|max_length[15]|is_unique[penyelenggara.noTelp]',
             'errors' => [
                 'required' => 'Nomor Telepon wajib diisi.',
                 'numeric' => 'Nomor Telepon harus berupa angka yang valid.',
                 'min_length' => 'Nomor Telepon harus terdiri dari minimal 10 digit.',
-                'max_length' => 'Nomor Telepon tidak boleh lebih dari 15 digit.'
+                'max_length' => 'Nomor Telepon tidak boleh lebih dari 15 digit.',
+                'is_unique' => 'Nomor Telepon sudah terdaftar. Silakan pilih yang lain.'
             ]
         ],
     ];
@@ -121,7 +122,7 @@ class Validation extends BaseConfig
             ]
         ],
         'email' => [
-            'rules' => 'required|valid_email|max_length[255]|is_unique[penyelenggara.username,id,{id}]',
+            'rules' => 'required|valid_email|max_length[255]|is_unique[penyelenggara.email,id,{id}]',
             'errors' => [
                 'required' => 'Email wajib diisi.',
                 'valid_email' => 'Masukkan format alamat email yang valid.',
@@ -161,12 +162,13 @@ class Validation extends BaseConfig
             ]
         ],
         'noTelp' => [
-            'rules' => 'required|numeric|min_length[10]|max_length[15]',
+            'rules' => 'required|numeric|min_length[10]|max_length[15]|is_unique[penyelenggara.noTelp,id,{id}]',
             'errors' => [
                 'required' => 'Nomor Telepon wajib diisi.',
                 'numeric' => 'Nomor Telepon harus berupa angka yang valid.',
                 'min_length' => 'Nomor Telepon harus terdiri dari minimal 10 digit.',
-                'max_length' => 'Nomor Telepon tidak boleh lebih dari 15 digit.'
+                'max_length' => 'Nomor Telepon tidak boleh lebih dari 15 digit.',
+                'is_unique' => 'Nomor Telepon sudah terdaftar. Silakan pilih yang lain.'
             ]
         ],
     ];
@@ -302,6 +304,53 @@ class Validation extends BaseConfig
         ],
         'oldPass' => [
             'rules' => 'required|is_not_unique[admin.password,id,{id}]',
+            'errors' => [
+                'required' => 'Password wajib diisi.',
+                'is_not_unique' => 'Password lama yang anda masukkan salah.'
+            ]
+        ],
+        'newPass' => [
+            'rules' => 'required|min_length[5]|max_length[255]',
+            'errors' => [
+                'required' => 'Password baru wajib diisi.',
+                'min_length' => 'Password baru harus terdiri dari minimal 5 karakter.',
+                'max_length' => 'Password baru tidak boleh lebih dari 255 karakter.'
+            ]
+        ],
+        'repeatNewPass' => [
+            'rules' => 'required|matches[newPass]',
+            'errors' => [
+                'required' => 'Password ulang wajib diisi.',
+                'matches' => 'Password baru dan ulang password tidak cocok.'
+            ]
+        ],
+    ];
+
+    public array $idDakwahRuleUser=[
+        'id_penyelenggara' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'id_penyelenggara wajib diisi.',
+            ]
+        ],
+        'id' => [
+            'rules' => 'required|is_natural_no_zero|is_not_unique[dakwah.id,id_penyelenggara,{id_penyelenggara}]',
+            'errors' => [
+                'required' => 'ID dakwah wajib diisi.',
+                'is_not_unique' => 'ID tidak ditemukan di database.'
+            ]
+        ]
+    ];
+    public array $userPasswordRule = [
+        'id' => [
+            'rules' => 'required|is_natural_no_zero|is_not_unique[penyelenggara.id]',
+            'errors' => [
+                'required' => 'ID wajib diisi.',
+                'is_not_unique' => 'ID tidak ditemukan di database.'
+            ]
+        ],
+        'oldPass' => [
+            'rules' => 'required|is_not_unique[penyelenggara.password,id,{id}]',
             'errors' => [
                 'required' => 'Password wajib diisi.',
                 'is_not_unique' => 'Password lama yang anda masukkan salah.'

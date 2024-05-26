@@ -36,7 +36,6 @@ class Admin extends Controller
         $adminModel = new AdminModel();
         $admin = $adminModel->where("id",$payloadArray['id'])->select("*")->findAll();
         $this->adminData = array("id"=>$admin[0]["id"],"username"=>$admin[0]["username"],"profilePict"=>$admin[0]["profilePict"]);
-
     }
 
 
@@ -70,7 +69,10 @@ class Admin extends Controller
             $this->session->setFlashdata(array("errors"=>$errors));
             return redirect("admin/penyelenggara/new");
         }
+        $addPenyelenggaraRequest["password"]=hash("sha256",$addPenyelenggaraRequest["password"]);
+
         $file = $this->request->getFile("profilePict");
+        //optional
         if (isset($file)){
             if ($file->isFile()){
                 if (!$this->validation->run([],"fileRule")) {
@@ -114,8 +116,14 @@ class Admin extends Controller
             "noTelp" => $this->request->getPost("noTelp")
         );
 
+        $statusAkun = $this->penyelenggaraModel->where('id', $editPenyelenggaraRequest["id"])->select("status")
+            ->findAll()[0];
+        if ($statusAkun=="inactive") {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
         if ($this->request->getPost("password") !== ""){
-            $editPenyelenggaraRequest["password"] = $this->request->getPost("password");
+            $editPenyelenggaraRequest["password"] = hash("sha256",$this->request->getPost("password"));
         }
 
         if (!$this->validation->run($editPenyelenggaraRequest,"editPenyelenggaraRules")) {
@@ -125,6 +133,7 @@ class Admin extends Controller
         }
 
         $file = $this->request->getFile("profilePict");
+        //optional
         if (isset($file)){
             if ($file->isFile()){
                 if (!$this->validation->run([],"fileRule")) {
@@ -229,6 +238,7 @@ class Admin extends Controller
             "id_penyelenggara"=>$this->request->getPost("id_penyelenggara"),
             "status" => "active"
         );
+        //not optional
         if (!$this->validation->run($addDakwahRequest,"dakwahRules")){
             $errors = $this->validation->getErrors();
             $this->session->setFlashdata(array("errors"=>$errors));
@@ -277,6 +287,11 @@ class Admin extends Controller
         if(!$this->validation->run(["id"=>$idDakwah],"idDakwahRule")){
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
+        $statusAkun = $this->dakwahModel->where('id', $idDakwah)->select("status")
+            ->findAll()[0];
+        if ($statusAkun["status"]=="inactive") {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
         $updateDakwahRequest=array(
             "judul" =>$this->request->getPost("judul"),
             "tema" => $this->request->getPost("tema"),
@@ -295,6 +310,7 @@ class Admin extends Controller
         }
 
         $file = $this->request->getFile("posterPict");
+        //optional
         if (isset($file)){
             if ($file->isFile()){
                 if (!$this->validation->run([],"posterUpdateRule")) {
@@ -375,7 +391,6 @@ class Admin extends Controller
         $adminRequest=array(
             "id"=>$this->adminData["id"],
             "username"=>$this->request->getPost("username"),
-            "profilePict"=>"default.jpg"
         );
         if (!$this->validation->run($adminRequest,"adminRule")){
             $errors = $this->validation->getErrors();
@@ -384,6 +399,7 @@ class Admin extends Controller
         }
 
         $file = $this->request->getFile("profilePict");
+        //optional
         if (isset($file)){
             if ($file->isFile()){
                 if (!$this->validation->run([],"fileRule")) {

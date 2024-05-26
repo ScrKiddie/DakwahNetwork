@@ -1,4 +1,4 @@
-function doneButton(apa){
+function doneButton(apa,path){
     const element = document.querySelector(".card-header");
     const warna = getComputedStyle(element).backgroundColor;
     const element2 = document.querySelector(".card-title");
@@ -22,7 +22,7 @@ function doneButton(apa){
             const formData = new FormData();
             formData.append('id', apa);
 
-            fetch('/admin/dakwah/done', {
+            fetch(path, {
                 method: 'POST',
                 body: formData
             })
@@ -30,7 +30,7 @@ function doneButton(apa){
                     if (response.ok) {
                         Swal.fire({
                             allowOutsideClick:false,
-                            title: "acceptd!",
+                            title: "success!",
                             text: "Kajian berhasil dianggap sebagai selesai.",
                             icon: "success",
                             confirmButtonColor: "#3a57e8",

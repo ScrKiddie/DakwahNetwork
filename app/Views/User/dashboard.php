@@ -10,37 +10,6 @@ include 'header.php';
         <div class="row row-cols-1">
             <div class="overflow-hidden d-slider1 ">
                 <ul class="p-0 m-0 mb-2 swiper-wrapper list-inline">
-                    <li style="max-width: 1000px" class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1200">
-                        <div class="card-body">
-                            <div class="progress-widget">
-                                <div id="circle-progress-06" class="text-center circle-progress-01 circle-progress circle-progress-info" data-min-value="0" data-max-value="1000" data-value="100" data-type="percent">
-                                    <svg class="card-slie-arrow icon-24" width="24" viewBox="0 0 24 24">
-                                        <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
-                                    </svg>
-                                </div>
-                                <div class="progress-detail">
-                                    <p  class="mb-2">Pengguna</p>
-                                    <h4 class="counter"><?=$this->data[0]?></h4>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">
-                        <div class="card-body">
-                            <div class="progress-widget">
-                                <div id="circle-progress-07" class="text-center circle-progress-01 circle-progress circle-progress-danger" data-min-value="0" data-max-value="1000" data-value="150" data-type="percent">
-                                    <svg class="card-slie-arrow icon-24 " width="24" viewBox="0 0 24 24">
-                                        <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
-                                    </svg>
-                                </div>
-                                <div class="progress-detail">
-                                    <p  class="mb-2">Pendaftar</p>
-                                    <h4 class="counter"><?=$this->data[1]?></h4>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
                     <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">
                         <div class="card-body">
                             <div class="progress-widget">
@@ -51,7 +20,7 @@ include 'header.php';
                                 </div>
                                 <div class="progress-detail">
                                     <p  class="mb-2">Dakwah</p>
-                                    <h4 class="counter"><?=$this->data[2]?></h4>
+                                    <h4 class="counter"><?=$this->data[0]?></h4>
                                 </div>
                             </div>
                         </div>
@@ -66,7 +35,7 @@ include 'header.php';
                                 </div>
                                 <div class="progress-detail">
                                     <p  class="mb-2">Rekap</p>
-                                    <h4 class="counter"><?=$this->data[3]?></h4>
+                                    <h4 class="counter"><?=$this->data[1]?></h4>
                                 </div>
                             </div>
                         </div>

@@ -65,7 +65,7 @@
                                     $success = session()->getFlashdata();
                                     if (isset($success["success"])){?>
                                         <div class="mb-3 alert alert-bottom alert-success alert-dismissible fade show" role="alert">
-                                            <span>Berhasil <?=$success["success"]?> akun, silahkan tunggu admin menerima permintaan anda!</span>
+                                            <span>Registrasi akun telah selesai, namun perlu dilakukan pengecekan lebih lanjut. Kami akan memberi notifikasi melalui email setelah proses pengecekan selesai.</span>
                                             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                                         </div>
                                         <?php

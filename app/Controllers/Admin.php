@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+use CodeIgniter\Email\Email;
 use DateTime;
 use DateTimeZone;
 use App\Models\DakwahModel;
@@ -18,6 +19,7 @@ class Admin extends Controller
     private DakwahModel $dakwahModel;
     private Validation $validation;
     private Session $session;
+    private Email $email;
     private array $adminData;
 
     function __construct()
@@ -27,6 +29,7 @@ class Admin extends Controller
         $this->dakwahModel = new DakwahModel();
         $this->validation = \Config\Services::validation();
         $this->session = \Config\Services::session();
+        $this->email = \Config\Services::email();
 
         //kebutuhan navbar
         helper('cookie');
@@ -169,15 +172,25 @@ class Admin extends Controller
         $fileById=$this->penyelenggaraModel->where("id", $idPenyelenggara)->select("profilePict")->findAll();
         $fileNameById=$fileById[0]['profilePict'];
         $filePath = FCPATH . 'upload/' . $fileNameById;
+        $email = $this->penyelenggaraModel->where('id', $idPenyelenggara)->select("email")
+            ->findAll()[0];
         try {
             if($this->penyelenggaraModel->where("id", $idPenyelenggara)->delete()){
                 //hapus file lama
                 if ($fileNameById!="default.jpg" && file_exists($filePath)){
                     unlink($filePath);
                 }
-                $response = service('response');
-                $response->setStatusCode(200);
-                return $response;
+                $this->email->setFrom($this->email->SMTPHost, 'DakNet');
+                $this->email->setTo($email);
+                $this->email->setSubject('Penonaktifan Akun DakNet');
+                $this->email->setMessage(view("admin/adminNonAktifMail"));
+                $this->email->setMailType('html');
+
+                if ($this->email->send()) {
+                    return service('response')->setStatusCode(200);
+                } else {
+                    return service('response')->setStatusCode(500);
+                }
             }
         } catch (DatabaseException $e) {
             if ($e->getCode() == 1451) {
@@ -202,11 +215,20 @@ class Admin extends Controller
         if ($statusAkun["status"]=="active") {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
+        $email = $this->penyelenggaraModel->where('id', $idPenyelenggara)->select("email")
+            ->findAll()[0];
         try {
             if($this->penyelenggaraModel->update($idPenyelenggara,["status"=>"active"])){
-                $response = service('response');
-                $response->setStatusCode(200);
-                return $response;
+                $this->email->setFrom($this->email->SMTPHost, 'DakNet');
+                $this->email->setTo($email);
+                $this->email->setSubject('Penerimaan Pendaftaran Akun DakNet');
+                $this->email->setMessage(view("admin/adminAcceptMail"));
+                $this->email->setMailType('html');
+                if ($this->email->send()) {
+                    return service('response')->setStatusCode(200);
+                } else {
+                    return service('response')->setStatusCode(500);
+                }
             }
         } catch (DatabaseException $e) {
             return service('response')->setStatusCode(500);
@@ -454,5 +476,6 @@ class Admin extends Controller
             redirect("admin/login");
         }
     }
+
 
 }

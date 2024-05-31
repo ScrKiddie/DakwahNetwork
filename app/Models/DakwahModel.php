@@ -18,11 +18,12 @@ class DakwahModel extends Model
         'posterPict',
         'id_penyelenggara',
     ];
-//    public function getDakwahWithPenyelenggara(): array
-//    {
-//        return $this->join($this->table, 'Penyelenggara.id = Dakwah.penyelenggara_id')
-//            ->select('Dakwah.*, Penyelenggara.namaLembaga as nama_penyelenggara')
-//            ->findAll();
-//    }
+    public function getDakwahWithPenyelenggara(): array
+    {
+        return $this->join("penyelenggara", 'penyelenggara.id = dakwah.id_penyelenggara')
+            ->select('dakwah.*, penyelenggara.namaLembaga as nama_penyelenggara')
+            ->where("dakwah.status","active")
+            ->findAll();
+    }
 
 }

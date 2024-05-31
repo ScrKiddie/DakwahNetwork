@@ -372,7 +372,47 @@ class Validation extends BaseConfig
             ]
         ],
     ];
-
+    public array $messageRequestRules = [
+        'name' => [
+            'rules' => 'required|min_length[3]|max_length[50]',
+            'errors' => [
+                'required' => 'Nama wajib diisi.',
+                'min_length' => 'Nama minimal berisi 3 karakter.',
+                'max_length' => 'Nama maksimal berisi 50 karakter.'
+            ]
+        ],
+        'email' => [
+            'rules' => 'required|valid_email|max_length[100]',
+            'errors' => [
+                'required' => 'Email wajib diisi.',
+                'valid_email' => 'Email tidak valid.',
+                'max_length' => 'Email maksimal berisi 100 karakter.'
+            ]
+        ],
+        'subject' => [
+            'rules' => 'required|max_length[100]',
+            'errors' => [
+                'required' => 'Subjek wajib diisi.',
+                'max_length' => 'Subjek maksimal berisi 100 karakter.'
+            ]
+        ],
+        'message' => [
+            'rules' => 'required|min_length[10]',
+            'errors' => [
+                'required' => 'Pesan wajib diisi.',
+                'min_length' => 'Pesan minimal berisi 10 karakter.'
+            ]
+        ],
+    ];
+    public array $idMessagesRule=[
+        'id' => [
+            'rules' => 'required|is_natural_no_zero|is_not_unique[messages.id]',
+            'errors' => [
+                'required' => 'ID wajib diisi.',
+                'is_not_unique' => 'ID tidak ditemukan di database.'
+            ]
+        ]
+    ];
     // --------------------------------------------------------------------
     // Rules
     // --------------------------------------------------------------------

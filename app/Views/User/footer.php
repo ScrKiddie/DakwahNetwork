@@ -5,8 +5,8 @@
 <footer class="footer" style="margin-top: 100px">
     <div class="footer-body">
         <ul class="left-panel list-inline mb-0 p-0">
-            <li class="list-inline-item"><a href="dashboard/extra/privacy-policy.html">Privacy Policy</a></li>
-            <li class="list-inline-item"><a href="dashboard/extra/terms-of-service.html">Terms of Use</a></li>
+            <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+            <li class="list-inline-item"><a href="#">Terms of Use</a></li>
         </ul>
         <div class="right-panel">
             ©<script>document.write(new Date().getFullYear())</script> DakNet, Made with

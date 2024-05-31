@@ -39,15 +39,13 @@ $routes->post('admin/profile/save', 'Admin::saveAdminProfile',['filter' => 'admi
 $routes->get('admin/password', 'Admin::passwordAdmin',['filter' => 'adminAuthorization']);
 $routes->post('admin/password/update', 'Admin::updatePasswordAdmin',['filter' => 'adminAuthorization']);
 
+$routes->get('admin/feedback', 'Admin::feedback',['filter' => 'adminAuthorization']);
+$routes->post('admin/messages/delete', 'Admin::feedbackDelete',['filter' => 'adminAuthorization']);
+
 $routes->get('admin/logout', 'Admin::logoutAdmin',['filter' => 'adminAuthorization']);
 
 
 
-
-
-
-
-$routes->get('/', 'User::dashboard',['filter' => 'userAuthorization']);
 $routes->get('/user/dashboard', 'User::dashboard',['filter' => 'userAuthorization']);
 $routes->get('/user/dakwah', 'User::dakwah',['filter' => 'userAuthorization']);
 $routes->get('/user/dakwah/histori', 'User::historiDakwah',['filter' => 'userAuthorization']);
@@ -68,4 +66,10 @@ $routes->get('user/login', 'Authentication::userLogin');
 $routes->post('user/auth', 'Authentication::userAuthentication');
 $routes->get('user/register', 'Authentication::userRegister');
 $routes->post('user/registering', 'Authentication::userRegistering');
+
+$routes->get('/dakwah', 'Visitor::dakwah');
+$routes->get('/beranda', 'Visitor::beranda');
+$routes->get('/contact', 'Visitor::contact');
+$routes->get('/', 'Visitor::beranda');
+$routes->post('/contact/send', 'Visitor::sendContact');
 

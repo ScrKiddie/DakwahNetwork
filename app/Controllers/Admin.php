@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\MessagesModel;
 use CodeIgniter\Email\Email;
 use DateTime;
 use DateTimeZone;
@@ -21,9 +22,11 @@ class Admin extends Controller
     private Session $session;
     private Email $email;
     private array $adminData;
+    private MessagesModel $messagesModel;
 
     function __construct()
     {
+        $this->messagesModel= new MessagesModel();
         $this->penyelenggaraModel = new PenyelenggaraModel();
         $this->adminModel = new AdminModel();
         $this->dakwahModel = new DakwahModel();
@@ -474,6 +477,22 @@ class Admin extends Controller
             return redirect("admin/login");
         }else{
             redirect("admin/login");
+        }
+    }
+    public function feedback(){
+        $messages = $this->messagesModel->findAll();
+        return view("admin/feedback",["data"=>$messages,"adminData"=>$this->adminData]);
+    }
+
+    public function feedbackDelete(){
+        $idMessage = $this->request->getPost("id");
+        if(!$this->validation->run(["id"=>$idMessage],"idMessagesRule")){
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        if($this->messagesModel->where("id", $idMessage)->delete()){
+            $response = service('response');
+            $response->setStatusCode(200);
+            return $response;
         }
     }
 

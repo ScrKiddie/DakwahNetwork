@@ -248,11 +248,6 @@
                     <li class="nav-item dropdown">
                         <a class="py-0 nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="<?=base_url()."upload/".$this->data["userData"]["profilePict"]?>" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50">
-                            <img src="<?=base_url()?>assets/images/avatars/avtar_1.png" alt="User-Profile" class="theme-color-purple-img img-fluid avatar avatar-50 avatar-rounded">
-                            <img src="<?=base_url()?>assets/images/avatars/avtar_2.png" alt="User-Profile" class="theme-color-blue-img img-fluid avatar avatar-50 avatar-rounded">
-                            <img src="<?=base_url()?>assets/images/avatars/avtar_4.png" alt="User-Profile" class="theme-color-green-img img-fluid avatar avatar-50 avatar-rounded">
-                            <img src="<?=base_url()?>assets/images/avatars/avtar_5.png" alt="User-Profile" class="theme-color-yellow-img img-fluid avatar avatar-50 avatar-rounded">
-                            <img src="<?=base_url()?>assets/images/avatars/avtar_3.png" alt="User-Profile" class="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded">
                             <div class="caption ms-3  d-none d-md-block">
                                 <h6 class="mb-0 caption-title"><?=$this->data["userData"]["username"] ?></h6>
                                 <p class="mb-0 caption-sub-title">Penyelenggara</p>
@@ -292,14 +287,7 @@
                     </div>
                 </div>
             </div>
-            <div class="iq-header-img">
-                <img src="<?=base_url()?>assets/images/dashboard/top-header.png" alt="header" class="theme-color-default-img img-fluid w-100 h-100 animated-scaleX">
-                <img src="<?=base_url()?>assets/images/dashboard/top-header1.png" alt="header" class="theme-color-purple-img img-fluid w-100 h-100 animated-scaleX">
-                <img src="<?=base_url()?>assets/images/dashboard/top-header2.png" alt="header" class="theme-color-blue-img img-fluid w-100 h-100 animated-scaleX">
-                <img src="<?=base_url()?>assets/images/dashboard/top-header3.png" alt="header" class="theme-color-green-img img-fluid w-100 h-100 animated-scaleX">
-                <img src="<?=base_url()?>assets/images/dashboard/top-header4.png" alt="header" class="theme-color-yellow-img img-fluid w-100 h-100 animated-scaleX">
-                <img src="<?=base_url()?>assets/images/dashboard/top-header5.png" alt="header" class="theme-color-pink-img img-fluid w-100 h-100 animated-scaleX">
-            </div>
+            <div class="iq-header-img"></div>
         </div>
         <!--Nav End-->
         <div class="conatiner-fluid content-inner mt-n5 py-0">

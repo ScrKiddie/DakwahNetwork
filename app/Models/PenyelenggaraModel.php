@@ -4,7 +4,7 @@ use CodeIgniter\Model;
 
 class PenyelenggaraModel extends Model
 {
-    protected $table = 'Penyelenggara';
+    protected $table = 'penyelenggara';
     protected $allowedFields = [
         'email',
         'username',

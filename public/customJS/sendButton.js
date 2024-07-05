@@ -1,7 +1,7 @@
 document.getElementById("sendButton").addEventListener("click",()=>{
     Swal.fire({
         allowOutsideClick:false,
-        title: `<h4 class="card-title">Loading</h4>`,
+        title: `<h4 class="card-title" style="margin-top: 50px">Loading</h4>`,
         text: "Tunggu sebentar memproses request.",
         didOpen: () => {
             const popup = Swal.getPopup();

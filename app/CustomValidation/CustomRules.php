@@ -31,10 +31,11 @@ class CustomRules
         }
     }
 
-    public function checkDuration($value, ?string &$error = null){
-        if ($value >= 30){
+    public function checkDuration($value, ?string &$error = null)
+    {
+        if ($value >= 30) {
             return true;
-        }else{
+        } else {
             $error = "Isi durasi minimal 30 menit.";
             return false;
         }

@@ -13,7 +13,7 @@ class AdminAuthorization implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        $privateKey = "secret_key_admin";
+        $privateKey = "ISI_SECRET_KEY_ADMIN";
         $cookies = $request->getCookie("token");
         if (isset($cookies)) {
             try {

@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 ?>
-<div class="sub-header">
+<div class="sub-header" style="background-image: url('<?=base_url()?>img/bg.png');background-size: 330px">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
@@ -15,7 +15,7 @@ include 'header.php';
         <div class="row">
             <div class="col-lg-4 col-md-12">
                 <div class="card rounded-1 mb-lg-0">
-                    <div class="card-body text-center">
+                    <div class="card-body text-center" >
                         <div class="services bg-soft-primary rounded-pill text-center mx-auto mb-4">
                             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="map-marker-alt" class="svg-inline--fa fa-map-marker-alt fa-w-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="32" height="32"><path fill="currentColor" d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"></path></svg>
                         </div>
@@ -58,7 +58,7 @@ include 'header.php';
                         Contact Us
                     </p>
                     <h2 class="text-white mb-4">Ada yang ingin disampaikan? <br> Isi form ini.</h2>
-                    <div class="img-fluid"></div>
+                    <img style="background-size: 20%" src="<?= base_url() ?>img/contact.png" class="img-fluid" alt="">
                 </div>
                 <div class="col-md-12 col-lg-6 mt-4 mt-md-0">
                     <div class="form-group">
@@ -83,7 +83,6 @@ include 'header.php';
         </form>
     </div>
 </div>
-<script src="<?=base_url()?>sweetalert/sweetalert2.all.js"></script>
 <script src="/customJS/sendButton.js"></script>
 <?php
 include 'footer.php';

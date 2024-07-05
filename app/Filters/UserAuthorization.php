@@ -13,15 +13,15 @@ class UserAuthorization implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        $privateKey = "secret_key_user";
+        $privateKey = "ISI_SECRET_KEY_USER";
         $cookies = $request->getCookie("token");
         if (isset($cookies)) {
             try {
                 $decoded = JWT::decode($cookies, new Key($privateKey, 'HS256'));
-            }catch (\Exception){
+            } catch (\Exception) {
                 return redirect("user/login");
             }
-        }else{
+        } else {
             return redirect("user/login");
         }
     }

@@ -90,9 +90,6 @@ if (isset($errors["errors"])){?>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label" for="validationDefault05">Poster Picture</label>
-                        <!--                        <div id="containerKu" style="max-height: 400px;max-width: 400px">-->
-                        <!--                            <img  id="image" src="">-->
-                        <!--                        </div>-->
                         <input style="display: none;visibility: hidden" name="posterPict" id="uploadGambar" class="form-control" type="file"  accept=".jpg, .jpeg, .png" >
                         <button style=" padding: 0;margin: 0;width: fit-content;height: fit-content" class="form-control" type="button" onclick="klikInput()">
                             <img  id="imageAfterPoster" style="border-radius: 0.25rem;width: 100%;height: 100%; padding: 0px" src="<?=base_url()."/img/add-image-poster.png"?>">

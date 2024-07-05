@@ -45,7 +45,6 @@ include 'header.php';
         <div class="swiper-button swiper-button-prev"></div>
     </div>
 </div>
-        <!--potong bawah-->
 <?php
 include 'footer.php';
 ?>

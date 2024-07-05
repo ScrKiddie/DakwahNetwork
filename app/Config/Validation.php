@@ -36,10 +36,10 @@ class Validation extends BaseConfig
      * @var array<string, string>
      */
     public array $templates = [
-        'list'   => 'CodeIgniter\Validation\Views\list',
+        'list' => 'CodeIgniter\Validation\Views\list',
         'single' => 'CodeIgniter\Validation\Views\single',
     ];
-    public array $penyelenggaraRules= [
+    public array $penyelenggaraRules = [
         'email' => [
             'rules' => 'required|valid_email|max_length[255]|is_unique[penyelenggara.email]',
             'errors' => [
@@ -92,7 +92,7 @@ class Validation extends BaseConfig
             ]
         ],
     ];
-    public array $idPenyelenggaraRule=[
+    public array $idPenyelenggaraRule = [
         'id' => [
             'rules' => 'required|is_natural_no_zero|is_not_unique[penyelenggara.id]',
             'errors' => [
@@ -102,7 +102,7 @@ class Validation extends BaseConfig
         ]
     ];
 
-    public array $fileRule=[
+    public array $fileRule = [
         'profilePict' => [
             'rules' => 'ext_in[profilePict,png,jpg,jpeg]|max_size[profilePict,5120]|max_dims[profilePict,400,400]',
             'errors' => [
@@ -113,7 +113,7 @@ class Validation extends BaseConfig
         ]
     ];
 
-    public array $editPenyelenggaraRules= [
+    public array $editPenyelenggaraRules = [
         'id' => [
             'rules' => 'required|is_natural_no_zero|is_not_unique[penyelenggara.id]',
             'errors' => [
@@ -190,7 +190,7 @@ class Validation extends BaseConfig
         ],
         'waktuMulai' => [
             'rules' => 'required|checkDateTimeFormat',
-            'errors'=>[
+            'errors' => [
                 'required' => 'Waktu mulai wajib diisi.'
             ]
         ],
@@ -230,18 +230,18 @@ class Validation extends BaseConfig
             ]
         ]
     ];
-    public array $posterAddRule=[
+    public array $posterAddRule = [
         'posterPict' => [
             'rules' => 'uploaded[posterPict]|ext_in[posterPict,png,jpg,jpeg]|max_size[posterPict,5120]|max_dims[posterPict,480,720]',
             'errors' => [
-                'uploaded' =>'File foto poster harus diisi.',
+                'uploaded' => 'File foto poster harus diisi.',
                 'ext_in' => 'Ekstensi file foto poster harus .png, .jpg, atau .jpeg.',
                 'max_size' => 'Ukuran file foto poster tidak boleh lebih dari 5MB.',
                 'max_dims' => 'Dimensi file harus 480:720.'
             ]
         ]
     ];
-    public array $posterUpdateRule=[
+    public array $posterUpdateRule = [
         'posterPict' => [
             'rules' => 'ext_in[posterPict,png,jpg,jpeg]|max_size[posterPict,5120]|max_dims[posterPict,480,720]',
             'errors' => [
@@ -251,7 +251,7 @@ class Validation extends BaseConfig
             ]
         ]
     ];
-    public array $idDakwahRule=[
+    public array $idDakwahRule = [
         'id' => [
             'rules' => 'required|is_natural_no_zero|is_not_unique[dakwah.id]',
             'errors' => [
@@ -260,7 +260,7 @@ class Validation extends BaseConfig
             ]
         ]
     ];
-    public array $authRule=[
+    public array $authRule = [
         'username' => [
             'rules' => 'required',
             'errors' => [
@@ -275,7 +275,7 @@ class Validation extends BaseConfig
         ]
     ];
 
-    public array $adminRule=[
+    public array $adminRule = [
         'id' => [
             'rules' => 'required|is_natural_no_zero|is_not_unique[admin.id]',
             'errors' => [
@@ -326,7 +326,7 @@ class Validation extends BaseConfig
         ],
     ];
 
-    public array $idDakwahRuleUser=[
+    public array $idDakwahRuleUser = [
         'id_penyelenggara' => [
             'rules' => 'required',
             'errors' => [
@@ -404,7 +404,7 @@ class Validation extends BaseConfig
             ]
         ],
     ];
-    public array $idMessagesRule=[
+    public array $idMessagesRule = [
         'id' => [
             'rules' => 'required|is_natural_no_zero|is_not_unique[messages.id]',
             'errors' => [

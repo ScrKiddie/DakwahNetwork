@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use CodeIgniter\Model;
@@ -18,11 +19,12 @@ class DakwahModel extends Model
         'posterPict',
         'id_penyelenggara',
     ];
+
     public function getDakwahWithPenyelenggara(): array
     {
         return $this->join("penyelenggara", 'penyelenggara.id = dakwah.id_penyelenggara')
-            ->select('dakwah.*, penyelenggara.namaLembaga as nama_penyelenggara')
-            ->where("dakwah.status","active")
+            ->select('dakwah.*, penyelenggara.*')
+            ->where("dakwah.status", "active")
             ->findAll();
     }
 

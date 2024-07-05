@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Controllers;
+
 use App\Models\AdminModel;
 use App\Models\PenyelenggaraModel;
 use CodeIgniter\Controller;
@@ -8,7 +10,8 @@ use CodeIgniter\Validation\Validation;
 use CodeIgniter\Session\Session;
 use Firebase\JWT\Key;
 
-class Authentication extends Controller{
+class Authentication extends Controller
+{
     private Validation $validation;
     private Session $session;
     private AdminModel $adminModel;
@@ -22,81 +25,91 @@ class Authentication extends Controller{
         $this->penyelenggaraModel = new PenyelenggaraModel();
     }
 
-    function adminAuthentication(){
-        $autRequest=array(
-            "username"=>$this->request->getPost("username"),
-            "password"=>$this->request->getPost("password")
+    function adminAuthentication()
+    {
+        $autRequest = array(
+            "username" => $this->request->getPost("username"),
+            "password" => $this->request->getPost("password")
         );
-        if(!$this->validation->run($autRequest,"authRule")){
+        if (!$this->validation->run($autRequest, "authRule")) {
             $errors = $this->validation->getErrors();
-            $this->session->setFlashdata(array("errors"=>$errors));
+            $this->session->setFlashdata(array("errors" => $errors));
             return redirect("admin/login");
         }
-        $id=$this->adminModel->select("id")
-        ->where("username",$this->request->getPost("username"))
-        ->where("password",hash("sha256",$this->request->getPost("password")))
-        ->findAll();
-        if($id==null){
-            $this->session->setFlashdata(array("errors"=>[""=>"Username atau password salah"]));
+        $id = $this->adminModel->select("id")
+            ->where("username", $this->request->getPost("username"))
+            ->where("password", hash("sha256", $this->request->getPost("password")))
+            ->findAll();
+        if ($id == null) {
+            $this->session->setFlashdata(array("errors" => ["" => "Username atau password salah"]));
             return redirect("admin/login");
         }
-        $privateKey = "secret_key_admin";
+        $privateKey = "ISI_SECRET_KEY_ADMIN";
         $timestampNow = time();
-        $timestampAdd1H = $timestampNow+3600;
+        $timestampAdd1H = $timestampNow + 3600;
         $payload = [
             'id' => $id[0]["id"],
             'nbf' => $timestampNow,
             'iat' => $timestampAdd1H,
         ];
         $jwt = JWT::encode($payload, $privateKey, 'HS256');
-        return redirect("admin/dashboard")->setCookie("token",$jwt,3600,"","","",false,true,"");;
+        return redirect("admin/dashboard")->setCookie("token", $jwt, 3600, "", "", "", false, true, "");;
     }
-    function adminLogin(){
+
+    function adminLogin()
+    {
         return view("admin/login");
     }
 
-    function userAuthentication(){
-        $autRequest=array(
-            "username"=>$this->request->getPost("username"),
-            "password"=>$this->request->getPost("password")
+    function userAuthentication()
+    {
+        $autRequest = array(
+            "username" => $this->request->getPost("username"),
+            "password" => $this->request->getPost("password")
         );
-        if(!$this->validation->run($autRequest,"authRule")){
+        if (!$this->validation->run($autRequest, "authRule")) {
             $errors = $this->validation->getErrors();
-            $this->session->setFlashdata(array("errors"=>$errors));
+            $this->session->setFlashdata(array("errors" => $errors));
             return redirect("user/login");
         }
-        $autRequest["password"] = hash("sha256",$autRequest["password"]);
-        $id=$this->penyelenggaraModel->select("id")
+        $autRequest["password"] = hash("sha256", $autRequest["password"]);
+        $id = $this->penyelenggaraModel->select("id")
             ->groupStart()
-                ->where("username",$autRequest["username"])
-                ->orWhere("email",$autRequest["username"])
+            ->where("username", $autRequest["username"])
+            ->orWhere("email", $autRequest["username"])
             ->groupEnd()
-            ->where("password",$autRequest["password"])
-            ->where("status","active")
+            ->where("password", $autRequest["password"])
+            ->where("status", "active")
             ->findAll();
-        if($id==null){
-            $this->session->setFlashdata(array("errors"=>[""=>"Username atau password salah"]));
+        if ($id == null) {
+            $this->session->setFlashdata(array("errors" => ["" => "Username atau password salah"]));
             return redirect("user/login");
         }
-        $privateKey = "secret_key_user";
+        $privateKey = "ISI_SECRET_KEY_USER";
         $timestampNow = time();
-        $timestampAdd1H = $timestampNow+3600;
+        $timestampAdd1H = $timestampNow + 3600;
         $payload = [
             'id' => $id[0]["id"],
             'nbf' => $timestampNow,
             'iat' => $timestampAdd1H,
         ];
         $jwt = JWT::encode($payload, $privateKey, 'HS256');
-        return redirect("user/dashboard")->setCookie("token",$jwt,3600,"","","",false,true,"");;
+        return redirect("user/dashboard")->setCookie("token", $jwt, 3600, "", "", "", false, true, "");;
     }
-    function userLogin(){
+
+    function userLogin()
+    {
         return view("user/login");
     }
-    function userRegister(){
+
+    function userRegister()
+    {
         return view("user/register");
     }
-    function userRegistering(){
-        $addPenyelenggaraRequest=array(
+
+    function userRegistering()
+    {
+        $addPenyelenggaraRequest = array(
             "email" => $this->request->getPost("email"),
             "username" => $this->request->getPost("username"),
             "password" => $this->request->getPost("password"),
@@ -106,14 +119,14 @@ class Authentication extends Controller{
             "profilePict" => "default.jpg",
             "status" => "inactive",
         );
-        if (!$this->validation->run($addPenyelenggaraRequest,"penyelenggaraRules")) {
+        if (!$this->validation->run($addPenyelenggaraRequest, "penyelenggaraRules")) {
             $errors = $this->validation->getErrors();
-            $this->session->setFlashdata(array("errors"=>$errors));
+            $this->session->setFlashdata(array("errors" => $errors));
             return redirect("user/register");
         }
-        $addPenyelenggaraRequest["password"] = hash("sha256",$addPenyelenggaraRequest["password"]);
+        $addPenyelenggaraRequest["password"] = hash("sha256", $addPenyelenggaraRequest["password"]);
         $this->penyelenggaraModel->insert($addPenyelenggaraRequest);
-        $this->session->setFlashdata(array("success"=>"membuat"));
+        $this->session->setFlashdata(array("success" => "membuat"));
         return redirect("user/register");
     }
 

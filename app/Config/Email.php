@@ -28,17 +28,17 @@ class Email extends BaseConfig
     /**
      * SMTP Server Hostname
      */
-    public string $SMTPHost = 'isi_host';
+    public string $SMTPHost = 'ISI_HOST';
 
     /**
      * SMTP Username
      */
-    public string $SMTPUser = 'isi_host';
+    public string $SMTPUser = 'ISI_USER';
 
     /**
      * SMTP Password
      */
-    public string $SMTPPass = 'isi_pw';
+    public string $SMTPPass = 'ISI_PASS';
 
     /**
      * SMTP Port

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Models\MessagesModel;
 use CodeIgniter\Email\Email;
 use DateTime;
@@ -26,7 +27,7 @@ class Admin extends Controller
 
     function __construct()
     {
-        $this->messagesModel= new MessagesModel();
+        $this->messagesModel = new MessagesModel();
         $this->penyelenggaraModel = new PenyelenggaraModel();
         $this->adminModel = new AdminModel();
         $this->dakwahModel = new DakwahModel();
@@ -37,30 +38,37 @@ class Admin extends Controller
         //kebutuhan navbar
         helper('cookie');
         $token_parts = explode('.', get_cookie("token"));
-        $payload =base64_decode($token_parts[1]);
+        $payload = base64_decode($token_parts[1]);
         $payloadArray = json_decode($payload, true);
         $adminModel = new AdminModel();
-        $admin = $adminModel->where("id",$payloadArray['id'])->select("*")->findAll();
-        $this->adminData = array("id"=>$admin[0]["id"],"username"=>$admin[0]["username"],"profilePict"=>$admin[0]["profilePict"]);
+        $admin = $adminModel->where("id", $payloadArray['id'])->select("*")->findAll();
+        $this->adminData = array("id" => $admin[0]["id"], "username" => $admin[0]["username"], "profilePict" => $admin[0]["profilePict"]);
     }
 
 
-    public function dashboard(){
-        $penyelenggaraActiveCount = $this->penyelenggaraModel->where("status","active")->countAllResults();
-        $penyelenggaraInactiveCount = $this->penyelenggaraModel->where("status","inactive")->countAllResults();
-        $dakwahActiveCount = $this->dakwahModel->where("status","active")->countAllResults();
-        $dakwahInactiveCount = $this->dakwahModel->where("status","inactive")->countAllResults();
-        return view("admin/dashboard",[$penyelenggaraActiveCount,$penyelenggaraInactiveCount,$dakwahActiveCount,$dakwahInactiveCount,"adminData"=>$this->adminData]);
+    public function dashboard()
+    {
+        $penyelenggaraActiveCount = $this->penyelenggaraModel->where("status", "active")->countAllResults();
+        $penyelenggaraInactiveCount = $this->penyelenggaraModel->where("status", "inactive")->countAllResults();
+        $dakwahActiveCount = $this->dakwahModel->where("status", "active")->countAllResults();
+        $dakwahInactiveCount = $this->dakwahModel->where("status", "inactive")->countAllResults();
+        return view("admin/dashboard", [$penyelenggaraActiveCount, $penyelenggaraInactiveCount, $dakwahActiveCount, $dakwahInactiveCount, "adminData" => $this->adminData]);
     }
-    public function penyelenggara(){
-        $penyelenggaraAktif = $this->penyelenggaraModel->where("status","active")->findAll();
-        return view("admin/penyelenggara",["data"=>$penyelenggaraAktif,"adminData"=>$this->adminData]);
+
+    public function penyelenggara()
+    {
+        $penyelenggaraAktif = $this->penyelenggaraModel->where("status", "active")->findAll();
+        return view("admin/penyelenggara", ["data" => $penyelenggaraAktif, "adminData" => $this->adminData]);
     }
-    public function newPenyelenggara(){
-        return view("admin/addPenyelenggara",["adminData"=>$this->adminData]);
+
+    public function newPenyelenggara()
+    {
+        return view("admin/addPenyelenggara", ["adminData" => $this->adminData]);
     }
-    public function addPenyelenggara(){
-        $addPenyelenggaraRequest=array(
+
+    public function addPenyelenggara()
+    {
+        $addPenyelenggaraRequest = array(
             "email" => $this->request->getPost("email"),
             "username" => $this->request->getPost("username"),
             "password" => $this->request->getPost("password"),
@@ -70,50 +78,53 @@ class Admin extends Controller
             "profilePict" => "default.jpg",
             "status" => "active",
         );
-        if (!$this->validation->run($addPenyelenggaraRequest,"penyelenggaraRules")) {
+        if (!$this->validation->run($addPenyelenggaraRequest, "penyelenggaraRules")) {
             $errors = $this->validation->getErrors();
-            $this->session->setFlashdata(array("errors"=>$errors));
+            $this->session->setFlashdata(array("errors" => $errors));
             return redirect("admin/penyelenggara/new");
         }
-        $addPenyelenggaraRequest["password"]=hash("sha256",$addPenyelenggaraRequest["password"]);
+        $addPenyelenggaraRequest["password"] = hash("sha256", $addPenyelenggaraRequest["password"]);
 
         $file = $this->request->getFile("profilePict");
         //optional
-        if (isset($file)){
-            if ($file->isFile()){
-                if (!$this->validation->run([],"fileRule")) {
+        if (isset($file)) {
+            if ($file->isFile()) {
+                if (!$this->validation->run([], "fileRule")) {
                     $errors = $this->validation->getErrors();
-                    $this->session->setFlashdata(array("errors"=>$errors));
+                    $this->session->setFlashdata(array("errors" => $errors));
                     return redirect("admin/penyelenggara/new");
-                }else{
+                } else {
                     $fileExtension = $file->getClientExtension();
                     $newFileName = uniqid() . "." . $fileExtension;
-                    $file->move(FCPATH."upload", $newFileName);
-                    $addPenyelenggaraRequest["profilePict"] =  $newFileName;
+                    $file->move(FCPATH . "upload", $newFileName);
+                    $addPenyelenggaraRequest["profilePict"] = $newFileName;
                 }
             }
         }
         $this->penyelenggaraModel->insert($addPenyelenggaraRequest);
-        $this->session->setFlashdata(array("success"=>"menambahkan"));
+        $this->session->setFlashdata(array("success" => "menambahkan"));
         return redirect("admin/penyelenggara");
     }
-    public function editPenyelenggara(){
+
+    public function editPenyelenggara()
+    {
         $idPenyelenggara = $this->request->getGet("id");
-        if(!$this->validation->run(["id"=>$idPenyelenggara],"idPenyelenggaraRule")){
+        if (!$this->validation->run(["id" => $idPenyelenggara], "idPenyelenggaraRule")) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
         $statusAkun = $this->penyelenggaraModel->where('id', $idPenyelenggara)->select("status")
             ->findAll()[0];
 
-        if ($statusAkun["status"]=="inactive") {
+        if ($statusAkun["status"] == "inactive") {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
-        $penyelenggaraById = $this->penyelenggaraModel->where("id",$idPenyelenggara)->findAll();
-        return view("admin/editPenyelenggara",["data"=>$penyelenggaraById,"adminData"=>$this->adminData]);
+        $penyelenggaraById = $this->penyelenggaraModel->where("id", $idPenyelenggara)->findAll();
+        return view("admin/editPenyelenggara", ["data" => $penyelenggaraById, "adminData" => $this->adminData]);
     }
 
-    public function updatePenyelenggara(){
-        $editPenyelenggaraRequest=array(
+    public function updatePenyelenggara()
+    {
+        $editPenyelenggaraRequest = array(
             "id" => $this->request->getPost("id"),
             "email" => $this->request->getPost("email"),
             "username" => $this->request->getPost("username"),
@@ -124,38 +135,38 @@ class Admin extends Controller
 
         $statusAkun = $this->penyelenggaraModel->where('id', $editPenyelenggaraRequest["id"])->select("status")
             ->findAll()[0];
-        if ($statusAkun=="inactive") {
+        if ($statusAkun == "inactive") {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
-        if ($this->request->getPost("password") !== ""){
-            $editPenyelenggaraRequest["password"] = hash("sha256",$this->request->getPost("password"));
+        if ($this->request->getPost("password") !== "") {
+            $editPenyelenggaraRequest["password"] = hash("sha256", $this->request->getPost("password"));
         }
 
-        if (!$this->validation->run($editPenyelenggaraRequest,"editPenyelenggaraRules")) {
+        if (!$this->validation->run($editPenyelenggaraRequest, "editPenyelenggaraRules")) {
             $errors = $this->validation->getErrors();
-            $this->session->setFlashdata(array("errors"=>$errors));
-            return redirect()->to(base_url()."admin/penyelenggara/edit?id=". $this->request->getPost("id"));
+            $this->session->setFlashdata(array("errors" => $errors));
+            return redirect()->to(base_url() . "admin/penyelenggara/edit?id=" . $this->request->getPost("id"));
         }
 
         $file = $this->request->getFile("profilePict");
         //optional
-        if (isset($file)){
-            if ($file->isFile()){
-                if (!$this->validation->run([],"fileRule")) {
+        if (isset($file)) {
+            if ($file->isFile()) {
+                if (!$this->validation->run([], "fileRule")) {
                     $errors = $this->validation->getErrors();
-                    $this->session->setFlashdata(array("errors"=>$errors));
-                    return redirect()->to(base_url()."admin/penyelenggara/edit?id=". $this->request->getPost("id"));
-                }else{
+                    $this->session->setFlashdata(array("errors" => $errors));
+                    return redirect()->to(base_url() . "admin/penyelenggara/edit?id=" . $this->request->getPost("id"));
+                } else {
                     $fileExtension = $file->getClientExtension();
                     $newFileName = uniqid() . "." . $fileExtension;
-                    $file->move(FCPATH."upload", $newFileName);
-                    $editPenyelenggaraRequest["profilePict"] =  $newFileName;
+                    $file->move(FCPATH . "upload", $newFileName);
+                    $editPenyelenggaraRequest["profilePict"] = $newFileName;
                     //hapus file lama
-                    $fileById=$this->penyelenggaraModel->where("id", $editPenyelenggaraRequest["id"])->select("profilePict")->findAll();
-                    $fileNameById=$fileById[0]["profilePict"];
+                    $fileById = $this->penyelenggaraModel->where("id", $editPenyelenggaraRequest["id"])->select("profilePict")->findAll();
+                    $fileNameById = $fileById[0]["profilePict"];
                     $filePath = FCPATH . 'upload/' . $fileNameById;
-                    if ($fileNameById!="default.jpg" && file_exists($filePath)){
+                    if ($fileNameById != "default.jpg" && file_exists($filePath)) {
                         unlink($filePath);
                     }
 
@@ -163,24 +174,26 @@ class Admin extends Controller
             }
         }
 
-        $this->penyelenggaraModel->update($editPenyelenggaraRequest["id"],$editPenyelenggaraRequest);
-        $this->session->setFlashdata(array("success"=>"mengubah"));
+        $this->penyelenggaraModel->update($editPenyelenggaraRequest["id"], $editPenyelenggaraRequest);
+        $this->session->setFlashdata(array("success" => "mengubah"));
         return redirect("admin/penyelenggara");
     }
-    public function deletePenyelenggara(){
+
+    public function deletePenyelenggara()
+    {
         $idPenyelenggara = $this->request->getPost("id");
-        if(!$this->validation->run(["id"=>$idPenyelenggara],"idPenyelenggaraRule")){
+        if (!$this->validation->run(["id" => $idPenyelenggara], "idPenyelenggaraRule")) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
-        $fileById=$this->penyelenggaraModel->where("id", $idPenyelenggara)->select("profilePict")->findAll();
-        $fileNameById=$fileById[0]['profilePict'];
+        $fileById = $this->penyelenggaraModel->where("id", $idPenyelenggara)->select("profilePict")->findAll();
+        $fileNameById = $fileById[0]['profilePict'];
         $filePath = FCPATH . 'upload/' . $fileNameById;
         $email = $this->penyelenggaraModel->where('id', $idPenyelenggara)->select("email")
             ->findAll()[0];
         try {
-            if($this->penyelenggaraModel->where("id", $idPenyelenggara)->delete()){
+            if ($this->penyelenggaraModel->where("id", $idPenyelenggara)->delete()) {
                 //hapus file lama
-                if ($fileNameById!="default.jpg" && file_exists($filePath)){
+                if ($fileNameById != "default.jpg" && file_exists($filePath)) {
                     unlink($filePath);
                 }
                 $this->email->setFrom($this->email->SMTPHost, 'DakNet');
@@ -203,25 +216,28 @@ class Admin extends Controller
             }
         }
     }
-    public function registeredPenyelenggara(){
-        $penyelenggaraNonaktif = $this->penyelenggaraModel->where("status","inactive")->findAll();
-        return view("admin/registeredPenyelenggara",["data"=>$penyelenggaraNonaktif,"adminData"=>$this->adminData]);
+
+    public function registeredPenyelenggara()
+    {
+        $penyelenggaraNonaktif = $this->penyelenggaraModel->where("status", "inactive")->findAll();
+        return view("admin/registeredPenyelenggara", ["data" => $penyelenggaraNonaktif, "adminData" => $this->adminData]);
     }
 
-    public function acceptPenyelenggara(){
+    public function acceptPenyelenggara()
+    {
         $idPenyelenggara = $this->request->getPost("id");
-        if(!$this->validation->run(["id"=>$idPenyelenggara],"idPenyelenggaraRule")){
+        if (!$this->validation->run(["id" => $idPenyelenggara], "idPenyelenggaraRule")) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
         $statusAkun = $this->penyelenggaraModel->where('id', $idPenyelenggara)->select("status")
             ->findAll()[0];
-        if ($statusAkun["status"]=="active") {
+        if ($statusAkun["status"] == "active") {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
         $email = $this->penyelenggaraModel->where('id', $idPenyelenggara)->select("email")
             ->findAll()[0];
         try {
-            if($this->penyelenggaraModel->update($idPenyelenggara,["status"=>"active"])){
+            if ($this->penyelenggaraModel->update($idPenyelenggara, ["status" => "active"])) {
                 $this->email->setFrom($this->email->SMTPHost, 'DakNet');
                 $this->email->setTo($email);
                 $this->email->setSubject('Penerimaan Pendaftaran Akun DakNet');
@@ -237,145 +253,155 @@ class Admin extends Controller
             return service('response')->setStatusCode(500);
         }
     }
-    function dakwah(){
-        $dakwahAktif = $this->dakwahModel->where("status","active")->findAll();
+
+    function dakwah()
+    {
+        $dakwahAktif = $this->dakwahModel->where("status", "active")->findAll();
         date_default_timezone_set('Asia/Jakarta');
-        foreach ($dakwahAktif as &$value){
-            $value["waktuMulai"]= date('Y-m-d\TH:i', $value["waktuMulai"]);
-            $value["durasi"]= $value["durasi"]." Menit";
+        foreach ($dakwahAktif as &$value) {
+            $value["waktuMulai"] = date('Y-m-d\TH:i', $value["waktuMulai"]);
+            $value["durasi"] = $value["durasi"] . " Menit";
         }
-        return view("admin/dakwah",["data"=>$dakwahAktif,"adminData"=>$this->adminData]);
-    }
-    function newDakwah(){
-        $namaLembaga = $this->penyelenggaraModel->select("id")->select("namaLembaga")->where("status","active")->findAll();
-        return view("admin/addDakwah",["data"=>$namaLembaga,"adminData"=>$this->adminData]);
+        return view("admin/dakwah", ["data" => $dakwahAktif, "adminData" => $this->adminData]);
     }
 
-    function addDakwah(){
-        $addDakwahRequest=array(
-            "judul" =>$this->request->getPost("judul"),
+    function newDakwah()
+    {
+        $namaLembaga = $this->penyelenggaraModel->select("id")->select("namaLembaga")->where("status", "active")->findAll();
+        return view("admin/addDakwah", ["data" => $namaLembaga, "adminData" => $this->adminData]);
+    }
+
+    function addDakwah()
+    {
+        $addDakwahRequest = array(
+            "judul" => $this->request->getPost("judul"),
             "tema" => $this->request->getPost("tema"),
             "waktuMulai" => $this->request->getPost("waktuMulai"),
             "durasi" => $this->request->getPost("durasi"),
-            "pendakwah"=>$this->request->getPost("pendakwah"),
-            "deskripsi"=>$this->request->getPost("deskripsi"),
-            "lokasi"=>$this->request->getPost("lokasi"),
-            "id_penyelenggara"=>$this->request->getPost("id_penyelenggara"),
+            "pendakwah" => $this->request->getPost("pendakwah"),
+            "deskripsi" => $this->request->getPost("deskripsi"),
+            "lokasi" => $this->request->getPost("lokasi"),
+            "id_penyelenggara" => $this->request->getPost("id_penyelenggara"),
             "status" => "active"
         );
         //not optional
-        if (!$this->validation->run($addDakwahRequest,"dakwahRules")){
+        if (!$this->validation->run($addDakwahRequest, "dakwahRules")) {
             $errors = $this->validation->getErrors();
-            $this->session->setFlashdata(array("errors"=>$errors));
-            return redirect()->to(base_url()."admin/dakwah/new");
+            $this->session->setFlashdata(array("errors" => $errors));
+            return redirect()->to(base_url() . "admin/dakwah/new");
         }
 
         $file = $this->request->getFile("posterPict");
-        if (!$this->validation->run([],"posterAddRule")) {
+        if (!$this->validation->run([], "posterAddRule")) {
             $errors = $this->validation->getErrors();
-            $this->session->setFlashdata(array("errors"=>$errors));
-            return redirect()->to(base_url()."admin/dakwah/new");
-        }else{
+            $this->session->setFlashdata(array("errors" => $errors));
+            return redirect()->to(base_url() . "admin/dakwah/new");
+        } else {
             $fileExtension = $file->getClientExtension();
             $newFileName = uniqid() . "." . $fileExtension;
-            $file->move(FCPATH."upload", $newFileName);
-            $addDakwahRequest["posterPict"] =  $newFileName;
+            $file->move(FCPATH . "upload", $newFileName);
+            $addDakwahRequest["posterPict"] = $newFileName;
         }
         $dateTime = new DateTime($addDakwahRequest["waktuMulai"], new DateTimeZone('Asia/Jakarta'));
         $dateTime->setTimezone(new DateTimeZone('UTC'));
         $givenDateTime = $dateTime->getTimestamp();
-        $addDakwahRequest["waktuMulai"]=$givenDateTime;
+        $addDakwahRequest["waktuMulai"] = $givenDateTime;
         $this->dakwahModel->insert($addDakwahRequest);
-        $this->session->setFlashdata(array("success"=>"menambahkan"));
+        $this->session->setFlashdata(array("success" => "menambahkan"));
         return redirect("admin/dakwah");
     }
-    function editDakwah(){
+
+    function editDakwah()
+    {
         $idDakwah = $this->request->getGet("id");
-        if(!$this->validation->run(["id"=>$idDakwah],"idDakwahRule")){
+        if (!$this->validation->run(["id" => $idDakwah], "idDakwahRule")) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
         $statusAkun = $this->dakwahModel->where('id', $idDakwah)->select("status")
             ->findAll()[0];
-        if ($statusAkun["status"]=="inactive") {
+        if ($statusAkun["status"] == "inactive") {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
-        $namaLembaga = $this->penyelenggaraModel->select("id")->select("namaLembaga")->where("status","active")->findAll();
-        $dakwahById = $this->dakwahModel->where("id",$idDakwah)->findAll();
+        $namaLembaga = $this->penyelenggaraModel->select("id")->select("namaLembaga")->where("status", "active")->findAll();
+        $dakwahById = $this->dakwahModel->where("id", $idDakwah)->findAll();
         date_default_timezone_set('Asia/Jakarta');
-        $dakwahById[0]["waktuMulai"]= date('Y-m-d\TH:i', $dakwahById[0]["waktuMulai"]);
-        return view("admin/editDakwah",["data"=>$dakwahById,"data2"=>$namaLembaga,"adminData"=>$this->adminData]);
+        $dakwahById[0]["waktuMulai"] = date('Y-m-d\TH:i', $dakwahById[0]["waktuMulai"]);
+        return view("admin/editDakwah", ["data" => $dakwahById, "data2" => $namaLembaga, "adminData" => $this->adminData]);
     }
 
-    function updateDakwah(){
+    function updateDakwah()
+    {
         $idDakwah = $this->request->getPost("id");
-        if(!$this->validation->run(["id"=>$idDakwah],"idDakwahRule")){
+        if (!$this->validation->run(["id" => $idDakwah], "idDakwahRule")) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
         $statusAkun = $this->dakwahModel->where('id', $idDakwah)->select("status")
             ->findAll()[0];
-        if ($statusAkun["status"]=="inactive") {
+        if ($statusAkun["status"] == "inactive") {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
-        $updateDakwahRequest=array(
-            "judul" =>$this->request->getPost("judul"),
+        $updateDakwahRequest = array(
+            "judul" => $this->request->getPost("judul"),
             "tema" => $this->request->getPost("tema"),
             "waktuMulai" => $this->request->getPost("waktuMulai"),
             "durasi" => $this->request->getPost("durasi"),
-            "pendakwah"=>$this->request->getPost("pendakwah"),
-            "deskripsi"=>$this->request->getPost("deskripsi"),
-            "lokasi"=>$this->request->getPost("lokasi"),
-            "id_penyelenggara"=>$this->request->getPost("id_penyelenggara"),
+            "pendakwah" => $this->request->getPost("pendakwah"),
+            "deskripsi" => $this->request->getPost("deskripsi"),
+            "lokasi" => $this->request->getPost("lokasi"),
+            "id_penyelenggara" => $this->request->getPost("id_penyelenggara"),
             "status" => "active"
         );
-        if (!$this->validation->run($updateDakwahRequest,"dakwahRules")){
+        if (!$this->validation->run($updateDakwahRequest, "dakwahRules")) {
             $errors = $this->validation->getErrors();
-            $this->session->setFlashdata(array("errors"=>$errors));
-            return redirect()->to(base_url()."admin/dakwah/edit?id=".$idDakwah );
+            $this->session->setFlashdata(array("errors" => $errors));
+            return redirect()->to(base_url() . "admin/dakwah/edit?id=" . $idDakwah);
         }
 
         $file = $this->request->getFile("posterPict");
         //optional
-        if (isset($file)){
-            if ($file->isFile()){
-                if (!$this->validation->run([],"posterUpdateRule")) {
+        if (isset($file)) {
+            if ($file->isFile()) {
+                if (!$this->validation->run([], "posterUpdateRule")) {
                     $errors = $this->validation->getErrors();
-                    $this->session->setFlashdata(array("errors"=>$errors));
-                    return redirect()->to(base_url()."admin/dakwah/edit?id=".$idDakwah );
-                }else{
+                    $this->session->setFlashdata(array("errors" => $errors));
+                    return redirect()->to(base_url() . "admin/dakwah/edit?id=" . $idDakwah);
+                } else {
                     //hapus
-                    $fileById=$this->dakwahModel->where("id", $idDakwah)->select("posterPict")->findAll();
-                    $fileNameById=$fileById[0]['posterPict'];
+                    $fileById = $this->dakwahModel->where("id", $idDakwah)->select("posterPict")->findAll();
+                    $fileNameById = $fileById[0]['posterPict'];
                     $filePath = FCPATH . 'upload/' . $fileNameById;
-                    if (file_exists($filePath)){
+                    if (file_exists($filePath)) {
                         unlink($filePath);
                     }
                     $fileExtension = $file->getClientExtension();
                     $newFileName = uniqid() . "." . $fileExtension;
-                    $file->move(FCPATH."upload", $newFileName);
-                    $updateDakwahRequest["posterPict"] =  $newFileName;
+                    $file->move(FCPATH . "upload", $newFileName);
+                    $updateDakwahRequest["posterPict"] = $newFileName;
                 }
             }
         }
         $dateTime = new DateTime($updateDakwahRequest["waktuMulai"], new DateTimeZone('Asia/Jakarta'));
         $dateTime->setTimezone(new DateTimeZone('UTC'));
         $givenDateTime = $dateTime->getTimestamp();
-        $updateDakwahRequest["waktuMulai"]=$givenDateTime;
-        $this->dakwahModel->update($idDakwah,$updateDakwahRequest);
-        $this->session->setFlashdata(array("success"=>"mengubah"));
+        $updateDakwahRequest["waktuMulai"] = $givenDateTime;
+        $this->dakwahModel->update($idDakwah, $updateDakwahRequest);
+        $this->session->setFlashdata(array("success" => "mengubah"));
         return redirect("admin/dakwah");
     }
-    public function deleteDakwah(){
+
+    public function deleteDakwah()
+    {
         $idDakwah = $this->request->getPost("id");
-        if(!$this->validation->run(["id"=>$idDakwah],"idDakwahRule")){
+        if (!$this->validation->run(["id" => $idDakwah], "idDakwahRule")) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
-        $fileById=$this->dakwahModel->where("id", $idDakwah)->select("posterPict")->findAll();
-        $fileNameById=$fileById[0]['posterPict'];
+        $fileById = $this->dakwahModel->where("id", $idDakwah)->select("posterPict")->findAll();
+        $fileNameById = $fileById[0]['posterPict'];
         $filePath = FCPATH . 'upload/' . $fileNameById;
-        if($this->dakwahModel->where("id", $idDakwah)->delete()){
+        if ($this->dakwahModel->where("id", $idDakwah)->delete()) {
             //hapus file lama
-            if (file_exists($filePath)){
+            if (file_exists($filePath)) {
                 unlink($filePath);
             }
             $response = service('response');
@@ -384,112 +410,127 @@ class Admin extends Controller
         }
     }
 
-    function historiDakwah(){
-        $dakwahAktif = $this->dakwahModel->where("status","inactive")->findAll();
-        foreach ($dakwahAktif as &$value){
-            $value["waktuMulai"]= date('Y-m-d\TH:i', $value["waktuMulai"]);
-            $value["durasi"]= $value["durasi"]." Menit";
+    function historiDakwah()
+    {
+        $dakwahAktif = $this->dakwahModel->where("status", "inactive")->findAll();
+        foreach ($dakwahAktif as &$value) {
+            $value["waktuMulai"] = date('Y-m-d\TH:i', $value["waktuMulai"]);
+            $value["durasi"] = $value["durasi"] . " Menit";
         }
-        return view("admin/historiDakwah",["data"=>$dakwahAktif,"adminData"=>$this->adminData]);
+        return view("admin/historiDakwah", ["data" => $dakwahAktif, "adminData" => $this->adminData]);
     }
 
-    public function doneDakwah(){
+    public function doneDakwah()
+    {
         $idDakwah = $this->request->getPost("id");
-        if(!$this->validation->run(["id"=>$idDakwah],"idDakwahRule")){
+        if (!$this->validation->run(["id" => $idDakwah], "idDakwahRule")) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
         $statusAkun = $this->dakwahModel->where('id', $idDakwah)->select("status")
             ->findAll()[0];
-        if ($statusAkun["status"]=="inactive") {
+        if ($statusAkun["status"] == "inactive") {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
-        if($this->dakwahModel->update($idDakwah, ["status"=>"inactive"])){
+        if ($this->dakwahModel->update($idDakwah, ["status" => "inactive"])) {
             $response = service('response');
             $response->setStatusCode(200);
             return $response;
         }
     }
-    public function adminProfile(){
-       return view("admin/profileAdmin",["adminData"=>$this->adminData]);
+
+    public function adminProfile()
+    {
+        return view("admin/profileAdmin", ["adminData" => $this->adminData]);
     }
-    public function saveAdminProfile(){
-        $adminRequest=array(
-            "id"=>$this->adminData["id"],
-            "username"=>$this->request->getPost("username"),
+
+    public function saveAdminProfile()
+    {
+        $adminRequest = array(
+            "id" => $this->adminData["id"],
+            "username" => $this->request->getPost("username"),
         );
-        if (!$this->validation->run($adminRequest,"adminRule")){
+        if (!$this->validation->run($adminRequest, "adminRule")) {
             $errors = $this->validation->getErrors();
-            $this->session->setFlashdata(array("errors"=>$errors));
-            return redirect()->to(base_url()."admin/profile");
+            $this->session->setFlashdata(array("errors" => $errors));
+            return redirect()->to(base_url() . "admin/profile");
         }
 
         $file = $this->request->getFile("profilePict");
         //optional
-        if (isset($file)){
-            if ($file->isFile()){
-                if (!$this->validation->run([],"fileRule")) {
+        if (isset($file)) {
+            if ($file->isFile()) {
+                if (!$this->validation->run([], "fileRule")) {
                     $errors = $this->validation->getErrors();
-                    $this->session->setFlashdata(array("errors"=>$errors));
-                    return redirect()->to(base_url()."admin/profile" );
-                }else{
+                    $this->session->setFlashdata(array("errors" => $errors));
+                    return redirect()->to(base_url() . "admin/profile");
+                } else {
                     $fileExtension = $file->getClientExtension();
                     $newFileName = uniqid() . "." . $fileExtension;
-                    $file->move(FCPATH."upload", $newFileName);
-                    $adminRequest["profilePict"] =  $newFileName;
+                    $file->move(FCPATH . "upload", $newFileName);
+                    $adminRequest["profilePict"] = $newFileName;
                     //hapus
-                    $fileById=$this->adminModel->where("id", $this->adminData["id"])->select("profilePict")->findAll();
-                    $fileNameById=$fileById[0]['profilePict'];
+                    $fileById = $this->adminModel->where("id", $this->adminData["id"])->select("profilePict")->findAll();
+                    $fileNameById = $fileById[0]['profilePict'];
                     $filePath = FCPATH . 'upload/' . $fileNameById;
-                    if ($fileNameById!="default.jpg" && file_exists($filePath)){
+                    if ($fileNameById != "default.jpg" && file_exists($filePath)) {
                         unlink($filePath);
                     }
                 }
             }
         }
 
-        $this->adminModel->update($this->adminData["id"],$adminRequest);
-        $this->session->setFlashdata(array("success"=>"mengubah"));
+        $this->adminModel->update($this->adminData["id"], $adminRequest);
+        $this->session->setFlashdata(array("success" => "mengubah"));
         return redirect("admin/profile");
     }
-    public function passwordAdmin(){
-        return view("admin/password",["adminData"=>$this->adminData]);
+
+    public function passwordAdmin()
+    {
+        return view("admin/password", ["adminData" => $this->adminData]);
     }
-    public function updatePasswordAdmin(){
+
+    public function updatePasswordAdmin()
+    {
         $adminRequest = array(
-            "id"=>$this->adminData["id"],
-            "oldPass"=> $this->request->getPost("oldPass"),
-            "newPass"=> $this->request->getPost("newPass"),
-            "repeatNewPass"=> $this->request->getPost("repeatNewPass"),
+            "id" => $this->adminData["id"],
+            "oldPass" => $this->request->getPost("oldPass"),
+            "newPass" => $this->request->getPost("newPass"),
+            "repeatNewPass" => $this->request->getPost("repeatNewPass"),
         );
-        if (!$this->validation->run($adminRequest,"adminPasswordRule")){
+        if (!$this->validation->run($adminRequest, "adminPasswordRule")) {
             $errors = $this->validation->getErrors();
-            $this->session->setFlashdata(array("errors"=>$errors));
-            return redirect()->to(base_url()."admin/password");
+            $this->session->setFlashdata(array("errors" => $errors));
+            return redirect()->to(base_url() . "admin/password");
         }
-        $this->adminModel->update($adminRequest["id"],["password"=>$adminRequest["newPass"]]);
-        $this->session->setFlashdata(array("success"=>"mengubah"));
+        $this->adminModel->update($adminRequest["id"], ["password" => $adminRequest["newPass"]]);
+        $this->session->setFlashdata(array("success" => "mengubah"));
         return redirect("admin/password");
     }
-    public function logoutAdmin(){
+
+    public function logoutAdmin()
+    {
         if (isset($_COOKIE['token'])) {
             unset($_COOKIE['token']);
             setcookie('token', '', time() - 3600, '/');
             return redirect("admin/login");
-        }else{
+        } else {
             redirect("admin/login");
         }
     }
-    public function feedback(){
+
+    public function feedback()
+    {
         $messages = $this->messagesModel->findAll();
-        return view("admin/feedback",["data"=>$messages,"adminData"=>$this->adminData]);
+        return view("admin/feedback", ["data" => $messages, "adminData" => $this->adminData]);
     }
 
-    public function feedbackDelete(){
+    public function feedbackDelete()
+    {
         $idMessage = $this->request->getPost("id");
-        if(!$this->validation->run(["id"=>$idMessage],"idMessagesRule")){
+        if (!$this->validation->run(["id" => $idMessage], "idMessagesRule")) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
-        if($this->messagesModel->where("id", $idMessage)->delete()){
+        if ($this->messagesModel->where("id", $idMessage)->delete()) {
             $response = service('response');
             $response->setStatusCode(200);
             return $response;
